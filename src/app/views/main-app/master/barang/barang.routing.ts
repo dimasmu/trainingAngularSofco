@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { barangBrowseComponent } from "./browse/barang-browse.component";
+import { Routes, RouterModule } from "@angular/router";
+import { BarangBrowseComponent } from "./browse/barang-browse.component";
 
 const routes: Routes = [
   {
@@ -14,7 +14,7 @@ const routes: Routes = [
         data: {
           breadcrumb: null,
         },
-        component: barangBrowseComponent,
+        component: BarangBrowseComponent,
       },
     ],
   },

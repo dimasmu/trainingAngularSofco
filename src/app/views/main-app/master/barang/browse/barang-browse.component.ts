@@ -7,10 +7,10 @@ import { AfterViewChecked, Component, OnDestroy, OnInit, ViewEncapsulation } fro
     encapsulation: ViewEncapsulation.None
 })
 
-export class barangBrowseComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class BarangBrowseComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     public ngOnInit() {
-
+        console.log("disini")
     }
 
     ngOnDestroy() {

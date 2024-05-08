@@ -1,48 +1,61 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { MainAppComponent } from './main-app.component';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { MainAppComponent } from "./main-app.component";
 
 const routes: Routes = [
-  { path: '',
+  {
+    path: "",
     component: MainAppComponent,
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+      { path: "", pathMatch: "full", redirectTo: "dashboard" },
       {
-        path: 'dashboard',
+        path: "dashboard",
         data: {
-          breadcrumb: 'Dashboard',
-          menucode: '001'
+          breadcrumb: "Dashboard",
+          menucode: "001",
         },
-        loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+        loadChildren: () =>
+          import("./dashboard/dashboard.module").then((m) => m.DashboardModule),
       },
 
       // domain
       {
-        path: 'master/customer',
+        path: "master/customer",
         data: {
-          breadcrumb: 'Customer',
-          menucode: '002008'
+          breadcrumb: "Customer",
+          menucode: "002008",
         },
-        loadChildren: () => import('./master/customer/customer.module')
-                                   .then((m) => m.CustomerModule),
+        loadChildren: () =>
+          import("./master/customer/customer.module").then(
+            (m) => m.CustomerModule
+          ),
       },
       {
-        path: 'transaksi/invoice-manual',
+        path: "master/barang",
         data: {
-          breadcrumb: 'InvoiceManual',
-          menucode: '003001'
+          breadcrumb: "Barang",
+          menucode: "002009",
         },
-        loadChildren: () => import('./transaksi/invoice-manual/invoice-manual.module')
-                                   .then((m) => m.InvoiceManualModule),
+        loadChildren: () =>
+          import("./master/barang/barang.module").then((m) => m.BarangModule),
       },
-
-    ]
-  }
+      {
+        path: "transaksi/invoice-manual",
+        data: {
+          breadcrumb: "InvoiceManual",
+          menucode: "003001",
+        },
+        loadChildren: () =>
+          import("./transaksi/invoice-manual/invoice-manual.module").then(
+            (m) => m.InvoiceManualModule
+          ),
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class MainAppRoutingModule { }
-
+export class MainAppRoutingModule {}
