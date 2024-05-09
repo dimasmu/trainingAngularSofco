@@ -40,6 +40,15 @@ const routes: Routes = [
           import("./master/barang/barang.module").then((m) => m.BarangModule),
       },
       {
+        path: "master/bagian",
+        data: {
+          breadcrumb: "Barang",
+          menucode: "002010",
+        },
+        loadChildren: () =>
+          import("./master/bagian/bagian.module").then((m) => m.BagianModule),
+      },
+      {
         path: "transaksi/invoice-manual",
         data: {
           breadcrumb: "InvoiceManual",

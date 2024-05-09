@@ -50,6 +50,11 @@ export class AppMenuComponent implements OnInit {
             icon: "fa fa-fw fa-truck",
             routerLink: ["/master/barang"],
           },
+          {
+            label: "Bagian",
+            icon: "fa fa-fw fa-user",
+            routerLink: ["/master/bagian"],
+          },
         ],
       },
       {

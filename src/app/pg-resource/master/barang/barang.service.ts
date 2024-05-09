@@ -14,7 +14,7 @@ import { StdModelMapper } from "src/app/common/common-class/standar-api-mapper";
 
 @Injectable()
 export class BarangService extends BaseService {
-  private apiUrl = StdConstants.API_ADDRESS + "/api/mstBarang";
+  private apiUrl = StdConstants.API_ADDRESS + "/mstbarang";
 
   private singleKey = "item";
   private multiKey = "items";
@@ -30,19 +30,13 @@ export class BarangService extends BaseService {
     super();
   }
 
-  private mapperBarang: StdModelMapper<Barang> = new StdModelMapper<Barang>(
-    Barang
-  );
+  private mapperBarang: StdModelMapper<Barang> = new StdModelMapper<Barang>(Barang);
 
   private requestUrl(extraUri?: string): string {
     return this.apiUrl + (extraUri ? "/" + extraUri : "");
   }
 
-  private convertResponse(
-    responseBody: StdResponse<any>,
-    mapper: any,
-    isMulti: boolean = false
-  ): StdResponse<any> {
+  private convertResponse(responseBody: StdResponse<any>, mapper: any, isMulti: boolean = false): StdResponse<any> {
     responseBody.data = isMulti
       ? mapper.toModelArray(responseBody.data[this.multiKey])
       : mapper.toModel(responseBody.data[this.singleKey]);
@@ -63,13 +57,20 @@ export class BarangService extends BaseService {
           return tmp;
         }),
         catchError((res) =>
-          this.handleError(
-            res,
-            this.appAlertService,
-            this.defaultLanguageState,
-            this.router,
-            this.messageTranslator
-          )
+          this.handleError(res, this.appAlertService, this.defaultLanguageState, this.router, this.messageTranslator)
+        )
+      );
+  }
+
+  public search(): Observable<StdResponse<Barang[]>> {
+    return this.http
+      .get<StdResponse<Barang[]>>(this.requestUrl("all"), {
+        params: this.mapperBarang.toSearchParams(),
+      })
+      .pipe(
+        map((res) => this.convertResponse(res, this.mapperBarang, true)),
+        catchError((res) =>
+          this.handleError(res, this.appAlertService, this.defaultLanguageState, this.router, this.messageTranslator)
         )
       );
   }
