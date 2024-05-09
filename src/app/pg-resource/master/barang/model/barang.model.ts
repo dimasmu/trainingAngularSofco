@@ -1,14 +1,18 @@
 export class Barang {
   constructor(
-    public id: number,
     public aktif: boolean,
-    public kode_barang: string,
-    public konversi_unit1_to_unit2: number,
-    public konversi_unit2_to_unit_stok: number,
-    public nama_barang: string,
+    public kodeBarang: string,
+    public konversiUnit1ToUnit2: number,
+    public konversiUnit2ToUnitStok: number,
+    public namaBarang: string,
     public unit1: string,
     public unit2: string,
-    public unit_stok: string,
+    public unitStok: string,
+
+    // harus ada di setiap model
+    public id: number,
+    public version: number,
+
     initial?: Partial<Barang>
   ) {
     Object.assign(this, initial);

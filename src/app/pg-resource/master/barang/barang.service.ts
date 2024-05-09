@@ -49,7 +49,7 @@ export class BarangService extends BaseService {
   public get(model: Barang): Observable<StdResponse<Barang>> {
     return this.http
       .get<StdResponse<Barang>>(this.apiUrl, {
-        params: new HttpParams().set("nama_barang", model.nama_barang),
+        params: new HttpParams().set("nama_barang", model.namaBarang),
       })
       .pipe(
         map((res: StdResponse<Barang>) => {
@@ -68,7 +68,9 @@ export class BarangService extends BaseService {
         params: this.mapperBarang.toSearchParams(),
       })
       .pipe(
-        map((res) => this.convertResponse(res, this.mapperBarang, true)),
+        map((res) => {
+          this.convertResponse(res, this.mapperBarang, true);
+        }),
         catchError((res) =>
           this.handleError(res, this.appAlertService, this.defaultLanguageState, this.router, this.messageTranslator)
         )

@@ -1,4 +1,4 @@
-import { StdPagingRequest } from './standar-api-request.model';
+import { StdPagingRequest } from "./standar-api-request.model";
 
 export interface StdResponse<T> {
   data?: T;
@@ -42,6 +42,6 @@ export interface StdPagingResponse extends StdPagingRequest {
 }
 
 export interface StdMultiMessage {
-    name: string;
-    messages: StdMessage[][];
+  name: string;
+  messages: StdMessage[][];
 }

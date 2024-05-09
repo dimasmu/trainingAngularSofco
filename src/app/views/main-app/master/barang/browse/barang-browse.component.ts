@@ -28,7 +28,7 @@ export class BarangBrowseComponent implements OnInit, OnDestroy, AfterViewChecke
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (result: StdResponse<Barang[]>) => {
-          this.isLoadingResultsDataTables = false;
+          // this.isLoadingResultsDataTables = false;
           // this.uiBlockService.hideUiBlock();
           this.dataTables = result.data;
           // this.totalRecordsDataTables = result.meta.pagination.dataCount;
