@@ -1,10 +1,51 @@
 <div class="ui-g-12">
   <div class="card no-margin">
     <div class="p-formgrid p-grid">
-      <div class="p-field p-grid p-col-6 p-justify-start p-align-center" style="margin-bottom: 1px; margin-left: 1px;">
-        <h2 style="margin-top: 10px; margin-bottom: 10px;">Master Barang</h2>
+      <div
+        class="p-field p-grid p-col-6 p-justify-start p-align-center"
+        style="margin-bottom: 1px; margin-left: 1px"
+      >
+        <h2 style="margin-top: 10px; margin-bottom: 10px">Master Barang</h2>
       </div>
-      <hr style="margin-bottom: 30px;" />
+      <hr style="margin-bottom: 30px" />
+
+      <div class="p-formgrid p-grid">
+        <div
+          class="p-field p-grid p-col-12 p-align-start p-justify-start"
+          style="margin-bottom: 1px; margin-left: 2px"
+        >
+          <p-table [value]="dataTables">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Kode Barang</th>
+                <th>Nama Barang</th>
+                <th>Unit 1</th>
+                <th>Unit 2</th>
+                <th>Unit Stok</th>
+                <th>Konversi Unit 1 to Unit 2</th>
+                <th>Konversi Unit 2 to Unit Stok</th>
+                <th>Aktif</th>
+                <!-- <th>ID</th>
+              <th>Version</th> -->
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-barang>
+              <tr>
+                <td>{{ barang.kodeBarang }}</td>
+                <td>{{ barang.namaBarang }}</td>
+                <td>{{ barang.unit1 }}</td>
+                <td>{{ barang.unit2 }}</td>
+                <td>{{ barang.unitStok }}</td>
+                <td>{{ barang.konversiUnit1ToUnit2 }}</td>
+                <td>{{ barang.konversiUnit2ToUnitStok }}</td>
+                <td>{{ barang.aktif }}</td>
+                <!-- <td>{{ barang.id }}</td>
+              <td>{{ barang.version }}</td> -->
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
     </div>
   </div>
 </div>

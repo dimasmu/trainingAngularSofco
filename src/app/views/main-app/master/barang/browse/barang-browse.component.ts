@@ -1,10 +1,10 @@
 import { AfterViewChecked, Component, OnDestroy, OnInit, ViewEncapsulation } from "@angular/core";
-import { TableModule } from "primeng/table";
 import { Barang } from "src/app/pg-resource/master/barang/model/barang.model";
 import { BarangService } from "src/app/pg-resource/master/barang/barang.service";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { StdResponse } from "src/app/common/common-model/standar-api-response.model";
+import { StdPagingRequest } from "src/app/common/common-model/standar-api-request.model";
 @Component({
   selector: "app-barang-browse",
   templateUrl: "./barang-browse.component.html",
@@ -13,7 +13,16 @@ import { StdResponse } from "src/app/common/common-model/standar-api-response.mo
 })
 export class BarangBrowseComponent implements OnInit, OnDestroy, AfterViewChecked {
   public dataTables: Barang[] = [];
+  public numberOfRowsDataTables = 5;
   public isLoadingResultsDataTables = false;
+  public totalRecordsDataTables = 0;
+  public colsUserDataTables: any[];
+
+  public pagingSearch: StdPagingRequest = null;
+  public firstSearch = 0;
+  public searchParamsSearch: any;
+  public sortSearch: any;
+  
   private ngUnsubscribe: Subject<boolean> = new Subject();
 
   constructor(private barangService: BarangService) {}

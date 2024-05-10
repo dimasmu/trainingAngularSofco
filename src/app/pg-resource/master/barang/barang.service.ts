@@ -69,7 +69,7 @@ export class BarangService extends BaseService {
       })
       .pipe(
         map((res) => {
-          this.convertResponse(res, this.mapperBarang, true);
+          return this.convertResponse(res, this.mapperBarang, true);
         }),
         catchError((res) =>
           this.handleError(res, this.appAlertService, this.defaultLanguageState, this.router, this.messageTranslator)
