@@ -1,20 +1,25 @@
+import { StdFieldMappingHint } from "src/app/common/common-class/standar-api-mapper";
+
 export class Barang {
-  constructor(
-    public aktif: boolean,
-    public kodeBarang: string,
-    public konversiUnit1ToUnit2: number,
-    public konversiUnit2ToUnitStok: number,
-    public namaBarang: string,
-    public unit1: string,
-    public unit2: string,
-    public unitStok: string,
+  public static readonly fieldMappingHints: StdFieldMappingHint[] = [
+    { model: "tglcrt", dataType: "date" },
+    { model: "tglupd", dataType: "date" },
+  ];
 
-    // harus ada di setiap model
-    public id: number,
-    public version: number,
+  public aktif: boolean = null;
+  public kodeBarang: string = null;
+  public konversiUnit1ToUnit2: number = null;
+  public konversiUnit2ToUnitStok: number = null;
+  public namaBarang: string = null;
+  public unit1: string = null;
+  public unit2: string = null;
+  public unitStok: string = null;
 
-    initial?: Partial<Barang>
-  ) {
+  // harus ada di setiap model
+  public id: string = null;
+  public version: number = null;
+
+  constructor(initial?: Partial<Barang>) {
     Object.assign(this, initial);
   }
 }

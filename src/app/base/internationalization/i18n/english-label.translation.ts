@@ -666,8 +666,13 @@ export class EnglishLabelDictionary {
     INVOICE: "Invoice",
     DEPOSIT: "Deposit",
 
-    Barang: "Barang",
-    Bagian: "Bagian",
+    // master barang
+    Barang: "Goods",
+    MasterBarang: "Goods Name",
+
+    // master bagian
+    Bagian: "Part",
+    MasterBagian: "Part Name",
   };
 
   public static getValues() {

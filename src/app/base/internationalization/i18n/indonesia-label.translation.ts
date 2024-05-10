@@ -683,8 +683,20 @@ export class IndonesiaLabelDictionary {
     INVOICE: "Invoice",
     DEPOSIT: "Deposit",
 
+    // MASTER BARANG
     Barang: "Barang",
+    MasterBarang: "Barang",
+    KodeBarang: "Kode Barang",
+    NamaBarang: "Nama Barang",
+    Unit1: "Unit 1",
+    KonversiUnit1ToUnit2: "Konversi Unit 1 ke Unit 2",
+    Unit2: "Unit 2",
+    KonversiUnit2ToUnitStok: "Konversi Unit 2 ke Unit Stok",
+    UnitStok: "Unit Stok",
+
+    // MASTER BAGIAN
     Bagian: "Bagian",
+    MasterBagian: "Bagian",
   };
 
   public static getValues() {
