@@ -150,8 +150,7 @@ export class EnglishLabelDictionary {
     ProfilUsaha: "Company Profile",
     Referensi: "Reference",
     Report: "Report",
-    ResetPasswordBerhasil:
-      "Password reset success, a new password has been sent to your email address",
+    ResetPasswordBerhasil: "Password reset success, a new password has been sent to your email address",
     Result: "Result",
     Restore: "Restore",
     ResetNomorOtomatis: "Reset Automatic Transaction Number",
@@ -165,8 +164,7 @@ export class EnglishLabelDictionary {
     Semua: "All",
     SettingGL: "GL Settings",
     SettingBahasaAngka: "Localization Setting",
-    SettingPermulaanSebelumProsesBulanan:
-      "Initial Setting Before The Monthly Process",
+    SettingPermulaanSebelumProsesBulanan: "Initial Setting Before The Monthly Process",
     Simpan: "Save",
     SimpanDanKembali: "Save & Back",
     SisiJurnal: "Journal Side",
@@ -397,11 +395,9 @@ export class EnglishLabelDictionary {
     JadwalPerulanganDihentikan: "Terminated Recurring Schedule",
 
     HentikanJadwalPerulangan: "Terminate Recurring Schedule",
-    PenghentianJadwalPerulanganBerhasil:
-      "Termination Recurring Schedule Succeeded",
+    PenghentianJadwalPerulanganBerhasil: "Termination Recurring Schedule Succeeded",
     Hentikan: "Terminate",
-    NilaiSisaDibuatkanJurnal:
-      "Proceed with creating journal for remainding value",
+    NilaiSisaDibuatkanJurnal: "Proceed with creating journal for remainding value",
 
     InfoRealisasiJadwal: "Recurring Schedule Realisation",
 
@@ -409,8 +405,7 @@ export class EnglishLabelDictionary {
     Info: "Information",
     DownloadTemplate: "Download Template",
 
-    Terdapaterrorpadafileyangdiupload:
-      "There was an error with the uploaded file",
+    Terdapaterrorpadafileyangdiupload: "There was an error with the uploaded file",
 
     KeteranganTambahan: "Additional Information",
     UploadDownload: "Download/Upload",
@@ -666,13 +661,23 @@ export class EnglishLabelDictionary {
     INVOICE: "Invoice",
     DEPOSIT: "Deposit",
 
-    // master barang
-    Barang: "Goods",
-    MasterBarang: "Goods Name",
+    // MASTER BARANG
+    // BROWSE
+    Barang: "Item",
+    MasterBarang: "Item",
+    KodeBarang: "Item Code",
+    NamaBarang: "Item Name",
+    Unit1: "Unit 1",
+    KonversiUnit1ToUnit2: "Conversion Unit 1 to Unit 2",
+    Unit2: "Unit 2",
+    KonversiUnit2ToUnitStok: "Conversion Unit 2 to Stock Unit",
+    UnitStok: "Stock Unit",
+    // INPUT
+    MasterBarangInput: "Item Master Input",
 
-    // master bagian
-    Bagian: "Part",
-    MasterBagian: "Part Name",
+    // MASTER BAGIAN
+    Bagian: "Department",
+    MasterBagian: "Department",
   };
 
   public static getValues() {

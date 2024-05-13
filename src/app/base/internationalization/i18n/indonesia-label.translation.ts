@@ -151,8 +151,7 @@ export class IndonesiaLabelDictionary {
     ProfilUsaha: "Profil Usaha",
     Referensi: "Referensi",
     Report: "Laporan",
-    ResetPasswordBerhasil:
-      "Reset password berhasil, password baru telah dikirim ke alamat email anda",
+    ResetPasswordBerhasil: "Reset password berhasil, password baru telah dikirim ke alamat email anda",
     Result: "Hasil",
     Restore: "Kembalikan",
     ResetNomorOtomatis: "Reset Nomor Otomatis",
@@ -166,8 +165,7 @@ export class IndonesiaLabelDictionary {
     Semua: "Semua",
     SettingGL: "Pengaturan GL",
     SettingBahasaAngka: "Pengaturan Pelokalan",
-    SettingPermulaanSebelumProsesBulanan:
-      "Setting Permulaan Sebelum Proses Bulanan *)",
+    SettingPermulaanSebelumProsesBulanan: "Setting Permulaan Sebelum Proses Bulanan *)",
     Simpan: "Simpan",
     SimpanDataIni: "Simpan data",
     SimpanDanKembali: "Simpan & Kembali",
@@ -373,8 +371,7 @@ export class IndonesiaLabelDictionary {
 
     Setting: "Pengaturan",
 
-    ModifikasiJenisSubPerkiraanBerhasil:
-      "Tambah/Ubah Jenis Sub Perkiraan Berhasil",
+    ModifikasiJenisSubPerkiraanBerhasil: "Tambah/Ubah Jenis Sub Perkiraan Berhasil",
 
     Rutin: "Rutin",
 
@@ -401,11 +398,9 @@ export class IndonesiaLabelDictionary {
     JadwalPerulanganDihentikan: "Jadwal Perulangan Dihentikan",
 
     HentikanJadwalPerulangan: "Hentikan Jadwal Perulangan Ini",
-    PenghentianJadwalPerulanganBerhasil:
-      "Penghentian Jadwal Perulangan Berhasil",
+    PenghentianJadwalPerulanganBerhasil: "Penghentian Jadwal Perulangan Berhasil",
     Hentikan: "Hentikan",
-    NilaiSisaDibuatkanJurnal:
-      "Dilanjutkan dengan membuat jurnal untuk nilai sisa",
+    NilaiSisaDibuatkanJurnal: "Dilanjutkan dengan membuat jurnal untuk nilai sisa",
 
     InfoRealisasiJadwal: "Info Realisasi Jadwal Perulangan",
 
@@ -413,8 +408,7 @@ export class IndonesiaLabelDictionary {
     Info: "Informasi",
     DownloadTemplate: "Unduh template",
 
-    Terdapaterrorpadafileyangdiupload:
-      "Terdapat error pada file yang di-upload",
+    Terdapaterrorpadafileyangdiupload: "Terdapat error pada file yang di-upload",
 
     KeteranganTambahan: "Keterangan Tambahan",
     UploadDownload: "Download/Upload",
@@ -684,6 +678,7 @@ export class IndonesiaLabelDictionary {
     DEPOSIT: "Deposit",
 
     // MASTER BARANG
+    //BROWSE
     Barang: "Barang",
     MasterBarang: "Barang",
     KodeBarang: "Kode Barang",
@@ -693,6 +688,8 @@ export class IndonesiaLabelDictionary {
     Unit2: "Unit 2",
     KonversiUnit2ToUnitStok: "Konversi Unit 2 ke Unit Stok",
     UnitStok: "Unit Stok",
+    //INPUT
+    MasterBarangInput: "Master Barang Input",
 
     // MASTER BAGIAN
     Bagian: "Bagian",

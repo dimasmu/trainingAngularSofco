@@ -1,11 +1,4 @@
-import {
-  AfterViewChecked,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewEncapsulation,
-} from "@angular/core";
+import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LangChangeEvent, TranslateService } from "@ngx-translate/core";
@@ -38,9 +31,7 @@ import { BarangService } from "src/app/pg-resource/master/barang/barang.service"
   providers: [DialogService],
   encapsulation: ViewEncapsulation.None,
 })
-export class BarangBrowseComponent
-  implements OnInit, OnDestroy, AfterViewChecked
-{
+export class BarangBrowseComponent implements OnInit, OnDestroy, AfterViewChecked {
   private ngUnsubscribe: Subject<boolean> = new Subject();
 
   public title = "MasterBarang";
@@ -123,6 +114,7 @@ export class BarangBrowseComponent
       barangAktif: [""],
     });
 
+    console.log(this.userForm.controls.namaBarang.value);
     this.searchParamsSearch = {
       namaBarang: this.userForm.controls.namaBarang.value,
       kodeBarang: this.userForm.controls.kodeBarang.value,
@@ -139,9 +131,7 @@ export class BarangBrowseComponent
         (result) => {
           this.uiBlockService.hideUiBlock();
 
-          this.radioButtonAktif = result.data.map(
-            (item) => new Object({ name: item.deskripsi, key: item.kode })
-          );
+          this.radioButtonAktif = result.data.map((item) => new Object({ name: item.deskripsi, key: item.kode }));
         },
         (error) => {
           this.uiBlockService.hideUiBlock();
@@ -153,6 +143,7 @@ export class BarangBrowseComponent
   }
 
   public search() {
+    console.log("tes");
     this.isLoadingResultsDataTables = false;
     this.uiBlockService.showUiBlock();
 
@@ -160,16 +151,17 @@ export class BarangBrowseComponent
     let kodeBarangFilter = null;
     let barangAktifFilter = null;
 
-    if (this.userForm.value.nama) {
+    if (this.userForm.value.namaBarang) {
       namaBarangFilter = this.userForm.value.namaBarang;
     }
 
-    if (this.userForm.value.picnama) {
+    if (this.userForm.value.kodeBarang) {
       kodeBarangFilter = this.userForm.value.kodeBarang;
     }
 
-    if (this.userForm.value.picnama) {
-      barangAktifFilter = this.userForm.value.barangAktif;
+    if (this.userForm.value.barangAktif) {
+      let isBarangAktif: boolean = this.userForm.value.barangAktif == "T" ? false : true;
+      barangAktifFilter = isBarangAktif;
     }
 
     this.searchParamsSearch = {
@@ -177,8 +169,6 @@ export class BarangBrowseComponent
       kodeBarang: kodeBarangFilter,
       barangAktif: barangAktifFilter,
     };
-
-    console.log(this.searchParamsSearch);
 
     this.barangService
       .search(this.searchParamsSearch, this.sortSearch, this.pagingSearch)
@@ -342,11 +332,7 @@ export class BarangBrowseComponent
             tableNumberOfRows: 0,
             urlAsal: this.router.url, // ini berisi : '/master/barang'
           };
-          SessionHelper.setItem(
-            "Mbarang-H",
-            trxScreenData,
-            this.lzStringService
-          );
+          SessionHelper.setItem("Mbarang-H", trxScreenData, this.lzStringService);
 
           // simpan data layar browse saat ini agar nanti sewaktu kembali ke layar browse,
           // layar browse dapat menampilkan data yang sama sebelum ke layar transaksi
@@ -364,11 +350,7 @@ export class BarangBrowseComponent
             fromDetail: false,
           };
 
-          SessionHelper.setItem(
-            "Mbarang-BROWSE-SCR",
-            browseScreenData,
-            this.lzStringService
-          );
+          SessionHelper.setItem("Mbarang-BROWSE-SCR", browseScreenData, this.lzStringService);
         },
         (error) => {
           this.uiBlockService.hideUiBlock();
@@ -392,6 +374,7 @@ export class BarangBrowseComponent
       tableNumberOfRows: 0,
       urlAsal: this.router.url, // ini berisi : '/transaksi/transaksi-jurnal'
     };
+    
     SessionHelper.setItem("Mbarang-H", sessionData, this.lzStringService);
 
     // simpan data layar browse saat ini agar nanti sewaktu kembali ke layar browse,
@@ -405,11 +388,7 @@ export class BarangBrowseComponent
 
     console.log(browseScreenData);
 
-    SessionHelper.setItem(
-      "Mbarang-BROWSE-SCR",
-      browseScreenData,
-      this.lzStringService
-    );
+    SessionHelper.setItem("Mbarang-BROWSE-SCR", browseScreenData, this.lzStringService);
 
     this.router.navigate(["./input"], { relativeTo: this.route });
   }
@@ -420,10 +399,7 @@ export class BarangBrowseComponent
   }
 
   private dataBridging() {
-    const browseScreenData = SessionHelper.getItem(
-      "Mbarang-BROWSE-SCR",
-      this.lzStringService
-    );
+    const browseScreenData = SessionHelper.getItem("Mbarang-BROWSE-SCR", this.lzStringService);
 
     if (!ObjectHelper.isEmpty(browseScreenData)) {
       if (browseScreenData.fromDetail) {
@@ -433,17 +409,11 @@ export class BarangBrowseComponent
         this.userForm.patchValue({
           nama: browseScreenData.nama ? browseScreenData.nama : "",
           picnama: browseScreenData.picnama ? browseScreenData.picnama : "",
-          picalamat: browseScreenData.picalamat
-            ? browseScreenData.picalamat
-            : "",
+          picalamat: browseScreenData.picalamat ? browseScreenData.picalamat : "",
           picemail: browseScreenData.picemail ? browseScreenData.picemail : "",
           billnama: browseScreenData.billnama ? browseScreenData.billnama : "",
-          billalamat: browseScreenData.billalamat
-            ? browseScreenData.billalamat
-            : "",
-          billemail: browseScreenData.billemail
-            ? browseScreenData.billemail
-            : "",
+          billalamat: browseScreenData.billalamat ? browseScreenData.billalamat : "",
+          billemail: browseScreenData.billemail ? browseScreenData.billemail : "",
           flakt: browseScreenData.flakt ? browseScreenData.flakt : "",
         });
 
@@ -475,11 +445,9 @@ export class BarangBrowseComponent
       .subscribe(
         (result) => {
           this.uiBlockService.hideUiBlock();
-          this.translateService
-            .get("HapusBerhasil")
-            .subscribe((translation) => {
-              this.appAlertService.instantInfo(translation);
-            });
+          this.translateService.get("HapusBerhasil").subscribe((translation) => {
+            this.appAlertService.instantInfo(translation);
+          });
 
           this.refreshDataDataTables();
         },
@@ -493,18 +461,16 @@ export class BarangBrowseComponent
   }
 
   public delete(data: Barang) {
-    this.translateService
-      .get("HapusTransaksiNomor")
-      .subscribe((translation) => {
-        this.confirmationService.confirm({
-          message: translation + " " + data.kodeBarang + " ?",
-          header: "Confirmation",
-          icon: "pi pi-exclamation-triangle",
-          accept: () => {
-            this.doDeleteDelete(data);
-          },
-          reject: () => {},
-        });
+    this.translateService.get("HapusTransaksiNomor").subscribe((translation) => {
+      this.confirmationService.confirm({
+        message: translation + " " + data.kodeBarang + " ?",
+        header: "Confirmation",
+        icon: "pi pi-exclamation-triangle",
+        accept: () => {
+          this.doDeleteDelete(data);
+        },
+        reject: () => {},
       });
+    });
   }
 }
