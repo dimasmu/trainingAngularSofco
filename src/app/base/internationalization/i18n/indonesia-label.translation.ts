@@ -692,8 +692,14 @@ export class IndonesiaLabelDictionary {
     MasterBarangInput: "Master Barang Input",
 
     // MASTER BAGIAN
+    //BROWSE
     Bagian: "Bagian",
-    MasterBagian: "Bagian",
+    MasterBagian: "Master Bagian",
+    KodeBagian: "Kode Bagian",
+    NamaBagian: "Nama Bagian",
+
+    //INPUT
+    MasterBagianInput: "Input Master Bagian"
   };
 
   public static getValues() {

@@ -20,17 +20,17 @@ import { DefaultLanguageState } from "src/app/base/default-language/default-lang
 import { TranslateMessageService } from "src/app/common/common-services/translate.message.service";
 import { ComboConstantsService } from "src/app/pg-resource/master/common/combo-constants/combo.constants.service";
 import { FEComboConstantService } from "src/app/common/common-services/fe.combo.constants.service";
-import { Barang } from "src/app/pg-resource/master/barang/model/barang.model";
-import { BarangService } from "src/app/pg-resource/master/barang/barang.service";
+import { Bagian } from "src/app/pg-resource/master/bagian/model/bagian.model";
+import { BagianService } from "src/app/pg-resource/master/bagian/bagian.service";
 
 @Component({
-  selector: "app-barang-input",
-  templateUrl: "./barang-input.component.html",
-  styleUrls: ["./barang-input.component.scss"],
+  selector: "app-bagian-input",
+  templateUrl: "./bagian-input.component.html",
+  styleUrls: ["./bagian-input.component.scss"],
   providers: [DialogService],
   encapsulation: ViewEncapsulation.None,
 })
-export class BarangInputComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class BagianInputComponent implements OnInit, OnDestroy, AfterViewChecked {
   public tab1Index = 0;
   public firstSearch = 0;
   public pagingSearch: StdPagingRequest = null;
@@ -39,7 +39,7 @@ export class BarangInputComponent implements OnInit, OnDestroy, AfterViewChecked
 
   private ngUnsubscribe: Subject<boolean> = new Subject();
 
-  public title = "MasterBarangInput";
+  public title = "MasterBagianInput";
 
   public inputForm: FormGroup;
 
@@ -48,7 +48,7 @@ export class BarangInputComponent implements OnInit, OnDestroy, AfterViewChecked
 
   public mode: string;
 
-  public selectedData: Barang = null;
+  public selectedData: Bagian = null;
 
   // width dari dataTables (untuk kemudian di set di bawah (di onDivDataTableResized) secara dinamis)
   public dataTablesWidth = "0px";
@@ -65,7 +65,7 @@ export class BarangInputComponent implements OnInit, OnDestroy, AfterViewChecked
     private confirmationService: ConfirmationService,
     private uiBlockService: UiBlockService,
     private translateService: TranslateService,
-    private BarangService: BarangService,
+    private bagianService: BagianService,
     private route: ActivatedRoute,
     private router: Router,
     private dialogService: DialogService,
@@ -82,7 +82,7 @@ export class BarangInputComponent implements OnInit, OnDestroy, AfterViewChecked
   public ngOnInit() {
     this.breadCrumbService.sendReloadInfo("reload");
     this.initInputForm();
-    this.initRadioButtonAktif();
+    // this.initRadioButtonAktif();
     // this.initRadioButtonFlmainva();
 
     this.dataBridging();
@@ -99,14 +99,8 @@ export class BarangInputComponent implements OnInit, OnDestroy, AfterViewChecked
 
   private initInputForm() {
     this.inputForm = this.fb.group({
-      namaBarang: [{ value: "", disabled: this.isViewOnly }, Validators.required],
-      kodeBarang: [{ value: "", disabled: this.isViewOnly }, Validators.required],
-      unit1: [{ value: "", disabled: this.isViewOnly }, Validators.required],
-      konversiUnit1ToUnit2: [{ value: "", disabled: this.isViewOnly }, Validators.required],
-      unit2: [{ value: "", disabled: this.isViewOnly }, Validators.required],
-      konversiUnit2ToUnitStok: [{ value: "", disabled: this.isViewOnly }, Validators.required],
-      unitStok: [{ value: "", disabled: this.isViewOnly }, Validators.required],
-      aktif: [{ value: "", disabled: this.isViewOnly }],
+      kodeBagian: [{ value: "", disabled: this.isViewOnly }, Validators.required],
+      namaBagian: [{ value: "", disabled: this.isViewOnly }, Validators.required]
     });
   }
 
@@ -157,24 +151,17 @@ export class BarangInputComponent implements OnInit, OnDestroy, AfterViewChecked
   private patchValue() {
     if (this.selectedData) {
       this.inputForm.patchValue({
-        namaBarang: this.selectedData.namaBarang == null ? "" : this.selectedData.namaBarang,
-        kodeBarang: this.selectedData.kodeBarang == null ? "" : this.selectedData.kodeBarang,
-        unit1: this.selectedData.unit1 == null ? "" : this.selectedData.unit1,
-        konversiUnit1ToUnit2:
-          this.selectedData.konversiUnit1ToUnit2 == null ? "" : this.selectedData.konversiUnit1ToUnit2,
-        unit2: this.selectedData.unit2 == null ? "" : this.selectedData.unit2,
-        konversiUnit2ToUnitStok:
-          this.selectedData.konversiUnit2ToUnitStok == null ? "" : this.selectedData.konversiUnit2ToUnitStok,
-        unitStok: this.selectedData.unitStok == null ? "" : this.selectedData.unitStok,
-        aktif: this.selectedData.aktif == true ? "Y" : "T",
+        kodeBagian: this.selectedData.kode == null ? "" : this.selectedData.kode,
+        namabagian: this.selectedData.nama == null ? "" : this.selectedData.nama
       });
     }
   }
 
-  public doGet(data: Barang) {
+  public doGet(data: Bagian) {
     this.uiBlockService.showUiBlock();
 
-    this.BarangService.get(data)
+    this.bagianService
+      .get(data)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (result) => {
@@ -190,7 +177,7 @@ export class BarangInputComponent implements OnInit, OnDestroy, AfterViewChecked
             tableFirst: 0,
             tableNumberOfRows: 0,
           };
-          SessionHelper.setItem("Mbarang-H", sessionData, this.lzStringService);
+          SessionHelper.setItem("Mbagian-H", sessionData, this.lzStringService);
 
           this.selectedData = sessionData.data;
 
@@ -206,19 +193,8 @@ export class BarangInputComponent implements OnInit, OnDestroy, AfterViewChecked
   }
 
   private fillModel() {
-    this.selectedData.namaBarang = this.inputForm.controls.namaBarang.value;
-    this.selectedData.kodeBarang = this.inputForm.controls.kodeBarang.value;
-    this.selectedData.unit1 = this.inputForm.controls.unit1.value;
-    this.selectedData.konversiUnit1ToUnit2 = this.inputForm.controls.konversiUnit1ToUnit2.value;
-    this.selectedData.unit2 = this.inputForm.controls.unit2.value;
-    this.selectedData.konversiUnit2ToUnitStok = this.inputForm.controls.konversiUnit2ToUnitStok.value;
-    this.selectedData.unitStok = this.inputForm.controls.unitStok.value;
-
-    if (this.inputForm.controls.aktif.value == "Y") {
-      this.selectedData.aktif = true;
-    } else {
-      this.selectedData.aktif = false;
-    }
+    this.selectedData.kode = this.inputForm.controls.kodeBagian.value;
+    this.selectedData.nama = this.inputForm.controls.namaBagian.value;
   }
 
   public doSaveSave() {
@@ -228,7 +204,8 @@ export class BarangInputComponent implements OnInit, OnDestroy, AfterViewChecked
 
     const transaksiKomplit = this.selectedData;
 
-    this.BarangService.add(transaksiKomplit)
+    this.bagianService
+      .add(transaksiKomplit)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (result) => {
@@ -254,7 +231,8 @@ export class BarangInputComponent implements OnInit, OnDestroy, AfterViewChecked
 
     const transaksiKomplit = this.selectedData;
 
-    this.BarangService.edit(transaksiKomplit)
+    this.bagianService
+      .edit(transaksiKomplit)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (result) => {
@@ -299,7 +277,8 @@ export class BarangInputComponent implements OnInit, OnDestroy, AfterViewChecked
 
   private doDeleteDelete() {
     this.uiBlockService.showUiBlock();
-    this.BarangService.delete(this.selectedData)
+    this.bagianService
+      .delete(this.selectedData)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (result) => {
@@ -312,7 +291,7 @@ export class BarangInputComponent implements OnInit, OnDestroy, AfterViewChecked
           });
 
           // Bersihkan session storage dan ubah ke mode add
-          const transaksiJurnalComplete = new Barang();
+          const transaksiJurnalComplete = new Bagian();
 
           const sessionData = {
             data: transaksiJurnalComplete,
@@ -322,7 +301,7 @@ export class BarangInputComponent implements OnInit, OnDestroy, AfterViewChecked
             tableFirst: 0,
             tableNumberOfRows: 0,
           };
-          SessionHelper.setItem("Mbarang-H", sessionData, this.lzStringService);
+          SessionHelper.setItem("Mbagian-H", sessionData, this.lzStringService);
 
           this.mode = "add";
           // this.initInputForm();
@@ -363,13 +342,13 @@ export class BarangInputComponent implements OnInit, OnDestroy, AfterViewChecked
 
   public back() {
     console.log("back");
-    if (this.previousUrl === "/master/Barang") {
-      const sessionData = SessionHelper.getItem("MBarang-BROWSE-SCR", this.lzStringService);
+    if (this.previousUrl === "/master/bagian") {
+      const sessionData = SessionHelper.getItem("Mbagian-BROWSE-SCR", this.lzStringService);
 
       // agar layar sebelumnya tahu bahwa ada aksi kembali dari detail
       // ini untuk membedakan antara layar sebelumnya dibuka via menu dan dibuka via back dari detail
       sessionData.fromDetail = true;
-      SessionHelper.setItem("MBarang-BROWSE-SCR", sessionData, this.lzStringService);
+      SessionHelper.setItem("Mbagian-BROWSE-SCR", sessionData, this.lzStringService);
 
       this.router.navigate(["../../../"], { relativeTo: this.route });
     } else {
@@ -378,7 +357,7 @@ export class BarangInputComponent implements OnInit, OnDestroy, AfterViewChecked
   }
 
   private dataBridging() {
-    const sessionData = SessionHelper.getItem("Mbarang-H", this.lzStringService);
+    const sessionData = SessionHelper.getItem("Mbagian-H", this.lzStringService);
     this.previousUrl = sessionData.urlAsal;
     if (sessionData.mode === "edit") {
       this.selectedData = sessionData.data;

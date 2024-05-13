@@ -143,7 +143,6 @@ export class BarangBrowseComponent implements OnInit, OnDestroy, AfterViewChecke
   }
 
   public search() {
-    console.log("tes");
     this.isLoadingResultsDataTables = false;
     this.uiBlockService.showUiBlock();
 
@@ -337,14 +336,14 @@ export class BarangBrowseComponent implements OnInit, OnDestroy, AfterViewChecke
           // simpan data layar browse saat ini agar nanti sewaktu kembali ke layar browse,
           // layar browse dapat menampilkan data yang sama sebelum ke layar transaksi
           const browseScreenData = {
-            nama: this.userForm.controls.nama.value,
-            picnama: this.userForm.controls.picnama.value,
-            picalamat: this.userForm.controls.picalamat.value,
-            picemail: this.userForm.controls.picemail.value,
-            billnama: this.userForm.controls.billnama.value,
-            billalamat: this.userForm.controls.billalamat.value,
-            billemail: this.userForm.controls.billemail.value,
-            flakt: this.userForm.controls.flakt.value,
+            kodeBarang: this.userForm.controls.kodeBarang.value,
+            namaBarang: this.userForm.controls.namaBarang.value,
+            unit1: this.userForm.controls.unit1.value,
+            konversiUnit1ToUnit2: this.userForm.controls.konversiUnit1ToUnit2.value,
+            unit2: this.userForm.controls.unit2.value,
+            konversiUnit2ToUnitStok: this.userForm.controls.konversiUnit2ToUnitStok.value,
+            unitStok: this.userForm.controls.unitStok.value,
+            aktif: this.userForm.controls.aktif.value,
 
             firstSearch: this.firstSearch,
             fromDetail: false,
@@ -364,7 +363,7 @@ export class BarangBrowseComponent implements OnInit, OnDestroy, AfterViewChecke
 
   public addDataTables() {
     const transaksiJurnalComplete = new Barang();
-
+    console.log("tambah barang");
     const sessionData = {
       data: transaksiJurnalComplete,
       mode: "add",
@@ -374,16 +373,21 @@ export class BarangBrowseComponent implements OnInit, OnDestroy, AfterViewChecke
       tableNumberOfRows: 0,
       urlAsal: this.router.url, // ini berisi : '/transaksi/transaksi-jurnal'
     };
-    
+
     SessionHelper.setItem("Mbarang-H", sessionData, this.lzStringService);
 
     // simpan data layar browse saat ini agar nanti sewaktu kembali ke layar browse,
     // layar browse dapat menampilkan data yang sama sebelum ke layar transaksi
 
     const browseScreenData = {
-      namaBarang: this.userForm.controls.namaBarang.value,
-      kodeBarang: this.userForm.controls.kodeBarang.value,
-      barangAktif: this.userForm.controls.barangAktif.value,
+      // kodeBarang: this.userForm.controls.kodeBarang.value,
+      // namaBarang: this.userForm.controls.namaBarang.value,
+      // unit1: this.userForm.controls.unit1.value,
+      // konversiUnit1ToUnit2: this.userForm.controls.konversiUnit1ToUnit2.value,
+      // unit2: this.userForm.controls.unit2.value,
+      // konversiUnit2ToUnitStok: this.userForm.controls.konversiUnit2ToUnitStok.value,
+      // unitStok: this.userForm.controls.unitStok.value,
+      // aktif: this.userForm.controls.aktif.value,
     };
 
     console.log(browseScreenData);
@@ -422,14 +426,14 @@ export class BarangBrowseComponent implements OnInit, OnDestroy, AfterViewChecke
         }
 
         this.searchParamsSearch = {
-          nama: this.userForm.controls.nama.value,
-          picnama: this.userForm.controls.picnama.value,
-          picalamat: this.userForm.controls.picalamat.value,
-          picemail: this.userForm.controls.picemail.value,
-          billnama: this.userForm.controls.billnama.value,
-          billalamat: this.userForm.controls.billalamat.value,
-          billemail: this.userForm.controls.billemail.value,
-          flakt: this.userForm.controls.flakt.value,
+          kodeBarang: this.userForm.controls.kodeBarang.value,
+          namaBarang: this.userForm.controls.namaBarang.value,
+          unit1: this.userForm.controls.unit1.value,
+          konversiUnit1ToUnit2: this.userForm.controls.konversiUnit1ToUnit2.value,
+          unit2: this.userForm.controls.unit2.value,
+          konversiUnit2ToUnitStok: this.userForm.controls.konversiUnit2ToUnitStok.value,
+          unitStok: this.userForm.controls.unitStok.value,
+          aktif: this.userForm.controls.aktif.value,
         };
       }
 
