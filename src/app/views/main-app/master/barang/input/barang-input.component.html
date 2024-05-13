@@ -1,0 +1,270 @@
+<div class="ui-g">
+  <div class="ui-g-12">
+    <div class="card no-margin">
+      <div class="p-formgrid p-grid">
+        <div class="p-field p-grid p-col-6 p-justify-start p-align-center" style="margin-bottom: 1px; margin-left: 1px">
+          <h2 style="margin-top: 10px; margin-bottom: 10px">
+            {{ title | translate }}
+          </h2>
+        </div>
+        <div class="p-field p-grid p-col-6 p-justify-end p-align-center" style="margin-bottom: 1px"></div>
+      </div>
+
+      <hr style="margin-bottom: 30px" />
+
+      <form [formGroup]="inputForm">
+        <!-- bagian atas -->
+        <div class="ui-g p-formgrid p-grid" style="padding-top: 0px; padding-bottom: 0px">
+          <div class="ui-g-12 ui-md-6" style="padding-top: 1px; padding-bottom: 1px">
+            <div class="ui-fluid ui-g-12 ui-md-5">
+              <label for="kodeBarang" class="ui-fluid p-sm-3" style="padding: 2px !important">{{
+                "KodeBarang" | translate
+              }}</label>
+            </div>
+            <div class="ui-fluid ui-g-12 ui-md-7" style="padding: 3px">
+              <input
+                pInputText
+                type="text"
+                id="kodeBarang"
+                [ngStyle]="
+                  inputForm.controls.kodeBarang.valid || inputForm.controls.kodeBarang.disabled
+                    ? {}
+                    : {
+                        'border-style': 'solid',
+                        'border-width': 'thin',
+                        'border-color': 'red',
+                        'border-radius': '1px'
+                      }
+                "
+                name="kode_barang"
+                formControlName="kodeBarang"
+                maxlength="50"
+              />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6" style="padding-top: 1px; padding-bottom: 1px">
+            <div class="ui-fluid ui-g-12 ui-md-5">
+              <label for="nomor" class="ui-fluid p-sm-3" style="padding: 2px !important">{{
+                "NamaBarang" | translate
+              }}</label>
+            </div>
+            <div class="ui-fluid ui-g-12 ui-md-7" style="padding: 3px">
+              <input
+                pInputText
+                type="text"
+                id="namaBarang"
+                [ngStyle]="
+                  inputForm.controls.namaBarang.valid || inputForm.controls.namaBarang.disabled
+                    ? {}
+                    : {
+                        'border-style': 'solid',
+                        'border-width': 'thin',
+                        'border-color': 'red',
+                        'border-radius': '1px'
+                      }
+                "
+                name="nama_barang"
+                formControlName="namaBarang"
+                maxlength="50"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="ui-g p-formgrid p-grid" style="padding-top: 0px; padding-bottom: 0px">
+          <div class="ui-g-12 ui-md-6" style="padding-top: 1px; padding-bottom: 1px">
+            <div class="ui-fluid ui-g-12 ui-md-5">
+              <label for="unit1" class="ui-fluid p-sm-3" style="padding: 2px !important">{{
+                "Unit1" | translate
+              }}</label>
+            </div>
+            <div class="ui-fluid ui-g-12 ui-md-7" style="padding: 3px">
+              <input
+                pInputText
+                type="text"
+                id="unit1"
+                [ngStyle]="
+                  inputForm.controls.unit1.valid || inputForm.controls.unit1.disabled
+                    ? {}
+                    : {
+                        'border-style': 'solid',
+                        'border-width': 'thin',
+                        'border-color': 'red',
+                        'border-radius': '1px'
+                      }
+                "
+                name="unit1"
+                formControlName="unit1"
+                maxlength="50"
+              />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6" style="padding-top: 1px; padding-bottom: 1px">
+            <div class="ui-fluid ui-g-12 ui-md-5">
+              <label for="konversiUnit1ToUnit2" class="ui-fluid p-sm-3" style="padding: 2px !important">{{
+                "KonversiUnit1ToUnit2" | translate
+              }}</label>
+            </div>
+            <div class="ui-fluid ui-g-12 ui-md-7" style="padding: 3px">
+              <input
+                pInputText
+                type="text"
+                id="konversiUnit1ToUnit2"
+                [ngStyle]="
+                  inputForm.controls.konversiUnit1ToUnit2.valid || inputForm.controls.konversiUnit1ToUnit2.disabled
+                    ? {}
+                    : {
+                        'border-style': 'solid',
+                        'border-width': 'thin',
+                        'border-color': 'red',
+                        'border-radius': '1px'
+                      }
+                "
+                name="konversi_unit1_to_unit2"
+                formControlName="konversiUnit1ToUnit2"
+                maxlength="50"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="ui-g p-formgrid p-grid" style="padding-top: 0px; padding-bottom: 0px">
+          <div class="ui-g-12 ui-md-6" style="padding-top: 1px; padding-bottom: 1px">
+            <div class="ui-fluid ui-g-12 ui-md-5">
+              <label for="unit2" class="ui-fluid p-sm-3" style="padding: 2px !important">{{
+                "Unit2" | translate
+              }}</label>
+            </div>
+            <div class="ui-fluid ui-g-12 ui-md-7" style="padding: 3px">
+              <input
+                pInputText
+                type="text"
+                id="unit2"
+                [ngStyle]="
+                  inputForm.controls.unit1.valid || inputForm.controls.unit1.disabled
+                    ? {}
+                    : {
+                        'border-style': 'solid',
+                        'border-width': 'thin',
+                        'border-color': 'red',
+                        'border-radius': '1px'
+                      }
+                "
+                name="unit2"
+                formControlName="unit2"
+                maxlength="50"
+              />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6" style="padding-top: 1px; padding-bottom: 1px">
+            <div class="ui-fluid ui-g-12 ui-md-5">
+              <label for="konversiUnit2ToUnitStok" class="ui-fluid p-sm-3" style="padding: 2px !important">{{
+                "KonversiUnit2ToUnitStok" | translate
+              }}</label>
+            </div>
+            <div class="ui-fluid ui-g-12 ui-md-7" style="padding: 3px">
+              <input
+                pInputText
+                type="text"
+                id="konversiUnit2ToUnitStok"
+                [ngStyle]="
+                  inputForm.controls.konversiUnit2ToUnitStok.valid ||
+                  inputForm.controls.konversiUnit2ToUnitStok.disabled
+                    ? {}
+                    : {
+                        'border-style': 'solid',
+                        'border-width': 'thin',
+                        'border-color': 'red',
+                        'border-radius': '1px'
+                      }
+                "
+                name="konversi_unit1_to_unit2"
+                formControlName="konversiUnit2ToUnitStok"
+                maxlength="50"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="ui-g p-formgrid p-grid" style="padding-top: 0px; padding-bottom: 0px">
+          <div class="ui-g-12 ui-md-6" style="padding-top: 1px; padding-bottom: 1px">
+            <div class="ui-fluid ui-g-12 ui-md-5">
+              <label for="unitStok" class="ui-fluid p-sm-3" style="padding: 2px !important">{{
+                "UnitStok" | translate
+              }}</label>
+            </div>
+            <div class="ui-fluid ui-g-12 ui-md-7" style="padding: 3px">
+              <input
+                pInputText
+                type="text"
+                id="unitStok"
+                [ngStyle]="
+                  inputForm.controls.unit1.valid || inputForm.controls.unit1.disabled
+                    ? {}
+                    : {
+                        'border-style': 'solid',
+                        'border-width': 'thin',
+                        'border-color': 'red',
+                        'border-radius': '1px'
+                      }
+                "
+                name="unit_stok"
+                formControlName="unitStok"
+                maxlength="50"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="ui-g p-formgrid p-grid" style="padding-top: 0px; padding-bottom: 0px; margin-left: 0rem">
+          <div class="ui-fluid ui-g-12 ui-md-2">
+            <label class="ui-fluid p-sm-3" style="padding: 2px !important">{{ "Aktif" | translate }}</label>
+          </div>
+          <div class="ui-fluid ui-g-12 ui-md-5 p-formgroup-inline" style="padding: 3px; margin-left: 2.5rem">
+            <div *ngFor="let itemAktif of radioButtonAktif" class="p-field-checkbox">
+              <p-radioButton
+                inputId="itemAktif.key"
+                name="itemAktif"
+                [value]="itemAktif.key"
+                formControlName="aktif"
+              ></p-radioButton>
+              <label [for]="itemAktif.key">{{ itemAktif.name | translate }}</label>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="ui-g" (resized)="onDivDataTableResized($event)">
+  <div class="p-col-12 p-justify-start" style="margin-left: 0px">
+    <p-button
+      type="submit"
+      label="{{ 'Simpan' | translate }}"
+      styleClass="ui-button-raised float-left"
+      icon="pi pi-save"
+      iconPos="left"
+      (onClick)="Save()"
+      [disabled]="!inputForm.valid || isViewOnly"
+      [style]="{ 'margin-top': '10px' }"
+    ></p-button>
+
+    <!-- <p-button type='button'
+              label="{{ 'Hapus' | translate }}"
+              styleClass='ui-button-raised ui-button-danger'
+              icon='pi pi-trash'
+              iconPos='left'
+              (onClick)='delete()'
+              [style]="{'margin-left': '5px', 'margin-top': '10px'}"
+              [disabled]="!inputForm.valid || isViewOnly || mode === 'add'"></p-button> -->
+
+    <p-button
+      type="button"
+      label="{{ 'Kembali' | translate }}"
+      styleClass="ui-button-raised ui-button-success"
+      icon="pi pi-arrow-circle-left"
+      iconPos="left"
+      (click)="back()"
+      [style]="{ 'margin-left': '5px', 'margin-top': '10px' }"
+    ></p-button>
+  </div>
+</div>
