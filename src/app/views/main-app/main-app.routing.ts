@@ -14,8 +14,7 @@ const routes: Routes = [
           breadcrumb: "Dashboard",
           menucode: "001",
         },
-        loadChildren: () =>
-          import("./dashboard/dashboard.module").then((m) => m.DashboardModule),
+        loadChildren: () => import("./dashboard/dashboard.module").then((m) => m.DashboardModule),
       },
 
       // domain
@@ -25,10 +24,7 @@ const routes: Routes = [
           breadcrumb: "Customer",
           menucode: "002008",
         },
-        loadChildren: () =>
-          import("./master/customer/customer.module").then(
-            (m) => m.CustomerModule
-          ),
+        loadChildren: () => import("./master/customer/customer.module").then((m) => m.CustomerModule),
       },
       {
         path: "master/barang",
@@ -36,29 +32,35 @@ const routes: Routes = [
           breadcrumb: "Barang",
           menucode: "002009",
         },
-        loadChildren: () =>
-          import("./master/barang/barang.module").then((m) => m.BarangModule),
+        loadChildren: () => import("./master/barang/barang.module").then((m) => m.BarangModule),
       },
       {
         path: "master/bagian",
         data: {
-          breadcrumb: "Barang",
+          breadcrumb: "Bagian",
           menucode: "002010",
         },
-        loadChildren: () =>
-          import("./master/bagian/bagian.module").then((m) => m.BagianModule),
+        loadChildren: () => import("./master/bagian/bagian.module").then((m) => m.BagianModule),
       },
       {
-        path: "transaksi/invoice-manual",
+        path: "transaksi/barang",
         data: {
-          breadcrumb: "InvoiceManual",
-          menucode: "003001",
+          breadcrumb: "BarangManual",
+          menucode: "003002",
         },
-        loadChildren: () =>
-          import("./transaksi/invoice-manual/invoice-manual.module").then(
-            (m) => m.InvoiceManualModule
-          ),
+        loadChildren: () => import("./transaksi/barang/barang.module").then((m) => m.TransaksiBarangManualModule),
       },
+      // {
+      //   path: "transaksi/invoice-manual",
+      //   data: {
+      //     breadcrumb: "InvoiceManual",
+      //     menucode: "003001",
+      //   },
+      //   loadChildren: () =>
+      //     import("./transaksi/invoice-manual/invoice-manual.module").then(
+      //       (m) => m.InvoiceManualModule
+      //     ),
+      // },
     ],
   },
 ];

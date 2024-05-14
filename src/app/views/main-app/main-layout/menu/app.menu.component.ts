@@ -9,13 +9,7 @@ import { TranslateService } from "@ngx-translate/core";
   selector: "app-menu",
   template: `
     <ul class="layout-menu">
-      <li
-        app-menuitem
-        *ngFor="let item of model; let i = index"
-        [item]="item"
-        [index]="i"
-        [root]="true"
-      ></li>
+      <li app-menuitem *ngFor="let item of model; let i = index" [item]="item" [index]="i" [root]="true"></li>
     </ul>
   `,
 })
@@ -25,10 +19,7 @@ export class AppMenuComponent implements OnInit {
 
   menusFromAPI: Menu[];
 
-  constructor(
-    public app: MainAppComponent,
-    private translateService: TranslateService
-  ) {}
+  constructor(public app: MainAppComponent, private translateService: TranslateService) {}
 
   ngOnInit() {
     //this.initMenu();
@@ -62,10 +53,15 @@ export class AppMenuComponent implements OnInit {
         icon: "fa fa-fw fa-server",
         routerLink: ["/transaksi"],
         items: [
+          // {
+          //   label: "InvoiceManual",
+          //   icon: "fa fa-fw fa-chart-plus",
+          //   routerLink: ["/transaksi/invoice-manual"],
+          // },
           {
-            label: "InvoiceManual",
-            icon: "fa fa-fw fa-chart-plus",
-            routerLink: ["/transaksi/invoice-manual"],
+            label: "BarangManual",
+            icon: "fa fa-fw fa-handshake",
+            routerLink: ["/transaksi/barang"],
           },
         ],
       },
@@ -103,10 +99,7 @@ export class AppMenuComponent implements OnInit {
       cloneLinkElement.setAttribute("href", href);
       cloneLinkElement.setAttribute("id", id + "-clone");
 
-      linkElement.parentNode.insertBefore(
-        cloneLinkElement,
-        linkElement.nextSibling
-      );
+      linkElement.parentNode.insertBefore(cloneLinkElement, linkElement.nextSibling);
 
       cloneLinkElement.addEventListener("load", () => {
         linkElement.remove();

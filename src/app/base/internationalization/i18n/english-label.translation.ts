@@ -676,8 +676,17 @@ export class EnglishLabelDictionary {
     MasterBarangInput: "Item Master Input",
 
     // MASTER BAGIAN
-    Bagian: "Department",
-    MasterBagian: "Department",
+    //BROWSE
+    Bagian: "Section",
+    MasterBagian: "Section Master",
+    KodeBagian: "Section Code",
+    NamaBagian: "Section Name",
+
+    //INPUT
+    MasterBagianInput: "Section Master Input",
+
+    //TRANSACTION
+    TransaksiBarang: "Goods Transaction",
   };
 
   public static getValues() {
