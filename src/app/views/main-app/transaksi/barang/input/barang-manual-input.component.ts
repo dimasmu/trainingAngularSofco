@@ -37,10 +37,12 @@ import { BarangHeader } from "src/app/pg-resource/transaksi/barang/model/barang-
 import { BarangDetail } from "src/app/pg-resource/transaksi/barang/model/barang-detail.model";
 import { BarangManualService } from "src/app/pg-resource/transaksi/barang/barang-manual.service";
 import { BarangManual } from "src/app/pg-resource/transaksi/barang/model/barang-manual.model";
-import { CustomerService } from "src/app/pg-resource/master/customer/customer.service";
+import { BagianService } from "src/app/pg-resource/master/bagian/bagian.service";
 import { Customer } from "src/app/pg-resource/master/customer/model/customer.model";
 import { InfoCustomerComponent } from "../../../info/customer/info.customer.component";
 import { Bagian } from "src/app/pg-resource/master/bagian/model/bagian.model";
+import * as moment from "moment";
+import { StdPagingRequest } from "src/app/common/common-model/standar-api-request.model";
 
 @Component({
   selector: "app-barang-manual-input",
@@ -64,6 +66,8 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
 
   public selectedData: BarangHeader = null;
 
+  public isLoadingDropDown = false;
+
   // datatables untuk detil lain-lain
   public dataTablesDetail: BarangDetail[] = [];
   public isLoadingResultsdataTablesDetail = false;
@@ -86,10 +90,29 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
 
   // tabbed
   public tabIndex = 0;
-  public tab2Title = "LainLain";
+  public tab2Title = "TransaksiDetail";
 
-  // terkait autocomplete
-  public filteredCustomer: any[];
+  // dropdown bagian
+  public comboBagian: any[];
+  public dropDownBagian: Bagian[];
+  public selectedBagian: string;
+
+  public searchBagianParam: any;
+
+  public numberOfRowsDataTables = 5;
+
+  public pagingSearch: StdPagingRequest = null;
+  public firstSearch = 0;
+  public searchParamsSearch: any;
+  public sortSearch: any;
+
+  // DATATABLE DETAIL
+  // datatables untuk detil lain-lain
+  public datatableDetail: BarangDetail[] = [];
+  public isLoadingResultsDataTablesDetail = false;
+  public totalRecordsDataTablesDetail = 0;
+
+  public expandedRowsDataTablesDetail: {} = {};
 
   constructor(
     private fb: FormBuilder,
@@ -109,14 +132,28 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
     private translateMessageService: TranslateMessageService,
     private feComboConstantService: FEComboConstantService,
     private comboConstantsService: ComboConstantsService,
-    private customerService: CustomerService
-  ) {}
+    private bagianService: BagianService
+  ) {
+    this.pagingSearch = {
+      page: 1,
+      perPage: this.numberOfRowsDataTables,
+    };
+    this.sortSearch = {
+      namaBagian: "asc",
+      kodeBagian: "asc",
+    };
+    this.searchParamsSearch = {
+      namaBagian: null,
+      kodeBagian: null,
+    };
+  }
 
   public ngOnInit() {
     this.breadCrumbService.sendReloadInfo("reload");
     this.initInputForm();
     this.initRadioButtonDeposit();
-    this.initComboStatus();
+    this.initDdlBagian();
+    // this.initComboStatus();
     this.dataBridging();
 
     this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -140,7 +177,7 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
     this.inputForm = this.fb.group({
       nomorBon: [{ value: "", disabled: this.isViewOnly }],
       tanggalBon: [{ value: new Date(), disabled: this.isViewOnly }, Validators.required],
-      bagianPeminta: [{ value: new Bagian(), disabled: this.isViewOnly }, Validators.required],
+      bagianPeminta: [{ value: "", disabled: this.isViewOnly }],
       keterangan: [{ value: "", disabled: this.isViewOnly }],
     });
   }
@@ -165,6 +202,10 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
           this.uiBlockService.hideUiBlock();
         }
       );
+  }
+
+  public datatableDetailChanged() {
+    console.log("datatable detail berubah");
   }
 
   private initComboStatus() {
@@ -229,10 +270,10 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
           };
           SessionHelper.setItem("TBARANGMANUAL-H", sessionData, this.lzStringService);
 
-          this.selectedData = sessionData.data.header;
+          this.selectedData = sessionData.data.headerBarang;
 
           this.dataTablesDetail = [];
-          this.dataTablesDetail = result.data.barangDetail;
+          this.dataTablesDetail = result.data.detailBarang;
           this.isLoadingResultsdataTablesDetail = false;
           this.totalRecordsdataTablesDetail = this.dataTablesDetail.length;
 
@@ -265,25 +306,30 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
 
   private fillModel() {
     this.selectedData.nomorBon = this.inputForm.controls.nomorBon.value;
-    this.selectedData.tanggalBon = this.inputForm.controls.tanggalBon.value;
-    this.selectedData.bagianPeminta = this.inputForm.controls.bagianPeminta.value;
+    this.selectedData.tanggalBon = moment(this.inputForm.controls.tanggalBon.value).format("YYYY-MM-DD");
     this.selectedData.keterangan = this.inputForm.controls.keterangan.value;
+
+    if (this.inputForm.controls.bagianPeminta.value != null) {
+      const getCode: string = this.inputForm.controls.bagianPeminta.value;
+      const getDataBagian: Bagian = this.dropDownBagian.find((bagian) => bagian.kode == getCode);
+      this.selectedData.bagianPeminta = getDataBagian;
+    }
   }
 
   private bentukDataUntukDisimpan(): BarangManual {
     this.fillModel();
-
+    // console.log(this.selectedData);
     // bersihkan data yang baru diinput tapi dihapus oleh user (isDeleted = true dan id nya kosong)
     // detail jurnal
-    for (let i = this.dataTablesDetail.length - 1; i >= 0; i--) {
-      if (this.dataTablesDetail[i].isSelect && this.dataTablesDetail[i].id === null) {
-        this.dataTablesDetail.splice(i, 1);
-      }
-    }
+    // for (let i = this.dataTablesDetail.length - 1; i >= 0; i--) {
+    //   if (this.dataTablesDetail[i].isSelect && this.dataTablesDetail[i].id === null) {
+    //     this.dataTablesDetail.splice(i, 1);
+    //   }
+    // }
 
     const transaksiKomplit = new BarangManual();
-    transaksiKomplit.header = this.selectedData;
-    transaksiKomplit.barangDetail = this.dataTablesDetail;
+    transaksiKomplit.headerBarang = this.selectedData;
+    transaksiKomplit.detailBarang = this.dataTablesDetail;
 
     return transaksiKomplit;
   }
@@ -298,13 +344,12 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (result) => {
-          // this.uiBlockService.hideUiBlock();
-
+          this.uiBlockService.hideUiBlock();
           this.translateService.get("TambahBerhasil").subscribe((translation) => {
             this.appAlertService.instantInfo(translation);
           });
 
-          this.doGet(result.header);
+          this.doGet(result.headerBarang);
         },
         (error) => {
           this.uiBlockService.hideUiBlock();
@@ -323,8 +368,8 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
             this.dataTablesDetail.slice();
 
             const transaksi = new BarangManual();
-            transaksi.header = this.selectedData;
-            transaksi.barangDetail = this.dataTablesDetail;
+            transaksi.headerBarang = this.selectedData;
+            transaksi.detailBarang = this.dataTablesDetail;
 
             const sessionDataHeader = SessionHelper.getItem("TBARANGMANUAL-H", this.lzStringService);
             sessionDataHeader.data = transaksi;
@@ -349,7 +394,7 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
     this.uiBlockService.showUiBlock();
 
     const transaksiKomplit = this.bentukDataUntukDisimpan();
-
+    console.log(transaksiKomplit);
     this.barangManualService
       .edit(transaksiKomplit)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -361,7 +406,7 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
             this.appAlertService.instantInfo(translation);
           });
 
-          this.doGet(result.header);
+          this.doGet(result.headerBarang);
         },
         (error) => {
           this.uiBlockService.hideUiBlock();
@@ -380,8 +425,8 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
             this.dataTablesDetail.slice();
 
             const transaksi = new BarangManual();
-            transaksi.header = this.selectedData;
-            transaksi.barangDetail = this.dataTablesDetail;
+            transaksi.headerBarang = this.selectedData;
+            transaksi.detailBarang = this.dataTablesDetail;
 
             const sessionDataHeader = SessionHelper.getItem("TBARANGMANUAL-H", this.lzStringService);
             sessionDataHeader.data = transaksi;
@@ -425,8 +470,8 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
 
           // Bersihkan session storage dan ubah ke mode add
           const dataKomplit = new BarangManual();
-          dataKomplit.header.tglupd = new Date();
-          dataKomplit.header.tglcrt = new Date();
+          dataKomplit.headerBarang.tglupd = new Date();
+          dataKomplit.headerBarang.tglcrt = new Date();
 
           // harus nya ambil dulu data dari session lalu di edit yg perlu supaya url asalnya ga ilang
           const sessionData = SessionHelper.getItem("TBARANGMANUAL-H", this.lzStringService);
@@ -441,7 +486,7 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
           this.inputForm.controls.nomor.enable();
           // this.inputForm.controls.tgtrn.patchValue(new Date());
 
-          this.selectedData = dataKomplit.header;
+          this.selectedData = dataKomplit.headerBarang;
           this.dataTablesDetail = [];
           this.dataTablesDetail.slice();
 
@@ -483,7 +528,7 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
   }
 
   public back() {
-    if (this.previousUrl === "/transaksi/barang-manual") {
+    if (this.previousUrl === "/transaksi/barang") {
       const sessionData = SessionHelper.getItem("TBARANGMANUAL-BROWSE-SCR", this.lzStringService);
 
       // agar layar sebelumnya tahu bahwa ada aksi kembali dari detail
@@ -519,7 +564,7 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
       this.mode = "add";
     }
 
-    this.totalRecordsdataTablesDetail = this.dataTablesDetail.length;
+    this.totalRecordsdataTablesDetail = this?.dataTablesDetail?.length == null ? 0 : this?.dataTablesDetail?.length;
 
     // memberi keyIn untuk keperluan input di grid DAN untuk expandable rows error message pada data tables
     this.dataTablesDetail.map((item) => {
@@ -554,70 +599,51 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
     }
   }
 
-  // AUTOCOMPLETE
-  // Untuk autocomplete customer
-  public filterCustomer(event) {
-    this.uiBlockService.showUiBlock();
-    const searchParams = {
-      nama: event.query,
-      flakt: "Y",
-    };
-    const sort: any = {
-      nama: "asc",
+  // Untuk verifikasi inputan di autocomplete customer
+  public initDdlBagian() {
+    this.isLoadingDropDown = false;
+    // this.uiBlockService.showUiBlock();
+
+    let namaBagianFilter = null;
+    let kodeBagianFilter = null;
+
+    if (this.inputForm.value.namaBagian) {
+      namaBagianFilter = this.inputForm.value.namaBagian;
+    }
+
+    if (this.inputForm.value.kodeBagian) {
+      kodeBagianFilter = this.inputForm.value.kodeBagian;
+    }
+
+    this.searchParamsSearch = {
+      namaBagian: namaBagianFilter,
+      kodeBagian: kodeBagianFilter,
     };
 
-    this.customerService
-      .search(searchParams, sort)
+    this.bagianService
+      .search(this.searchBagianParam, this.sortSearch, this.pagingSearch)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
-        (result: StdResponse<Customer[]>) => {
-          // this.uiBlockService.hideUiBlock();
-
-          this.filteredCustomer = result.data;
+        (result: StdResponse<Bagian[]>) => {
+          if (result.data.length > 0) {
+            this.isLoadingDropDown = false;
+            // this.uiBlockService.hideUiBlock();
+            this.dropDownBagian = result.data;
+            this.comboBagian = result.data.map((item) => new Object({ label: item.nama, value: item.kode }));
+            let getFirstObject: any = result.data[0];
+            this.selectedBagian = getFirstObject.kode;
+          }
         },
         (error) => {
-          this.uiBlockService.hideUiBlock();
+          this.isLoadingDropDown = false;
+          // this.uiBlockService.hideUiBlock();
           this.appAlertService.error(error.errors);
         },
         () => {
-          this.uiBlockService.hideUiBlock();
+          this.isLoadingDropDown = false;
+          // this.uiBlockService.hideUiBlock();
         }
       );
-  }
-
-  // Untuk verifikasi inputan di autocomplete customer
-  public verifikasiAutocompleteCustomer(data: any) {
-    let periksa = false;
-    if (typeof data === "string") {
-      // ini pasti inputan autocomplete berdasarkan ketikan bukan select dari pilihan
-      // oleh sebab itu harus diperiksa
-      periksa = true;
-    }
-
-    if (periksa) {
-      this.uiBlockService.showUiBlock();
-
-      this.customerService
-        .getByNama(data)
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(
-          (result: StdResponse<Customer>) => {
-            if (result.data) {
-              this.inputForm.controls.customer.patchValue(result.data);
-            } else {
-              this.inputForm.controls.customer.patchValue(new Customer());
-            }
-            // this.uiBlockService.hideUiBlock();
-          },
-          (error) => {
-            this.uiBlockService.hideUiBlock();
-            this.appAlertService.error(error.errors);
-          },
-          () => {
-            this.uiBlockService.hideUiBlock();
-          }
-        );
-    }
   }
 
   public selectedCustomer() {
@@ -771,5 +797,15 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
       },
       () => {}
     );
+  }
+}
+
+class BagianDDL {
+  label: string;
+  value: string;
+
+  constructor(label: string, value: string) {
+    this.label = label;
+    this.value = value;
   }
 }

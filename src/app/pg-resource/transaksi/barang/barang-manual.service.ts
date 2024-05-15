@@ -142,6 +142,26 @@ export class BarangManualService extends BaseService {
       );
   }
 
+  public calculate(model: BarangDetail): Observable<BarangDetail> {
+    console.log("mapping model", this.mapperBarangDetail.toJson(model, 0));
+    return this.http
+      .post<StdResponse<BarangDetail>>(this.requestUrl("calculate"), this.mapperBarangDetail.toJson(model, 0))
+      .pipe(
+        map((res: StdResponse<BarangDetail>) => {
+          return this.convertResponse(res, this.mapperBarangDetail).data;
+        }),
+        catchError((res: StdResponse<BarangDetail>) => {
+          return this.handleError(
+            res,
+            this.appAlertService,
+            this.defaultLanguageState,
+            this.router,
+            this.messageTranslator
+          );
+        })
+      );
+  }
+
   public add(model: BarangManual): Observable<BarangManual> {
     return this.http.post<StdResponse<BarangManual>>(this.apiUrl, this.mapperBarangManual.toJson(model, 2)).pipe(
       map((res: StdResponse<BarangManual>) => {

@@ -115,6 +115,7 @@ export class BarangManualBrowseComponent implements OnInit, OnDestroy, AfterView
     this.userForm = this.fb.group({
       nomorBon: [""],
       tanggalBon: [""],
+      bagianPeminta: [""],
     });
 
     this.searchParamsSearch = {
@@ -242,6 +243,7 @@ export class BarangManualBrowseComponent implements OnInit, OnDestroy, AfterView
             this.isLoadingResultsDataTables = false;
             this.uiBlockService.hideUiBlock();
             this.dataTables = result.data;
+
             this.totalRecordsDataTables = result.meta.pagination.dataCount;
           },
           (error) => {
@@ -263,9 +265,11 @@ export class BarangManualBrowseComponent implements OnInit, OnDestroy, AfterView
 
   public initColsUserDataTables() {
     this.colsUserDataTables = [
-      { field: "nomorBon", header: "Nomor Bon", rtl: false, type: "string", width: "20%" },
-      { field: "tanggalBon", header: "Tanggal Bon", rtl: false, type: "string", width: "30%" },
-      { field: "keterangan", header: "Keterangan", rtl: false, type: "string", width: "50%" },
+      { field: "delete", header: "Delete", rtl: false, type: "string", width: "5%" },
+      { field: "nomorBon", header: "Nomor Bon", rtl: false, type: "string", width: "15%" },
+      { field: "bagianPeminta", header: "Bagian Peminta", rtl: false, type: "string", width: "30%" },
+      { field: "tanggalBon", header: "Tanggal Bon", rtl: false, type: "string", width: "20%" },
+      { field: "keterangan", header: "Keterangan", rtl: false, type: "string", width: "30%" },
     ];
   }
 
@@ -291,21 +295,19 @@ export class BarangManualBrowseComponent implements OnInit, OnDestroy, AfterView
             tableNumberOfRows: 0,
             urlAsal: this.router.url, // ini berisi : '/transaksi/invoice-manual'
           };
-          SessionHelper.setItem("TINVMANUAL-H", trxScreenData, this.lzStringService);
+          SessionHelper.setItem("TBARANGMANUAL-H", trxScreenData, this.lzStringService);
 
           // simpan data layar browse saat ini agar nanti sewaktu kembali ke layar browse,
           // layar browse dapat menampilkan data yang sama sebelum ke layar transaksi
           const browseScreenData = {
-            nomor: this.userForm.controls.nomor.value,
-            nama: this.userForm.controls.nama.value,
-            status: this.userForm.controls.status.value,
-            fltodep: this.userForm.controls.fltodep.value,
+            nomorBon: this.userForm.controls.nomorBon.value,
+            tanggalBon: this.userForm.controls.tanggalBon.value,
 
             firstSearch: this.firstSearch,
             fromDetail: false,
           };
 
-          SessionHelper.setItem("TINVMANUAL-BROWSE-SCR", browseScreenData, this.lzStringService);
+          SessionHelper.setItem("TBARANGMANUAL-BROWSE-SCR", browseScreenData, this.lzStringService);
         },
         (error) => {
           this.uiBlockService.hideUiBlock();
@@ -316,8 +318,8 @@ export class BarangManualBrowseComponent implements OnInit, OnDestroy, AfterView
 
   public addDataTables() {
     const transaksiJurnalComplete = new BarangManual();
-    transaksiJurnalComplete.header.tglcrt = new Date();
-    transaksiJurnalComplete.header.tglupd = new Date();
+    transaksiJurnalComplete.headerBarang.tglcrt = new Date();
+    transaksiJurnalComplete.headerBarang.tglupd = new Date();
 
     const sessionData = {
       data: transaksiJurnalComplete,
@@ -328,21 +330,16 @@ export class BarangManualBrowseComponent implements OnInit, OnDestroy, AfterView
       tableNumberOfRows: 0,
       urlAsal: this.router.url, // ini berisi : '/transaksi/invoice-manual'
     };
-    SessionHelper.setItem("TINVMANUAL-H", sessionData, this.lzStringService);
-
+    SessionHelper.setItem("TBARANGMANUAL-H", sessionData, this.lzStringService);
+    console.log(transaksiJurnalComplete);
     // simpan data layar browse saat ini agar nanti sewaktu kembali ke layar browse,
     // layar browse dapat menampilkan data yang sama sebelum ke layar transaksi
     const browseScreenData = {
-      nomor: this.userForm.controls.nomor.value,
-      nama: this.userForm.controls.nama.value,
-      status: this.userForm.controls.status.value,
-      fltodep: this.userForm.controls.fltodep.value,
-
-      firstSearch: this.firstSearch,
-      fromDetail: false,
+      nomorBon: this.userForm.controls.nomorBon.value,
+      tanggalBon: this.userForm.controls.tanggalBon.value,
     };
 
-    SessionHelper.setItem("TINVMANUAL-BROWSE-SCR", browseScreenData, this.lzStringService);
+    SessionHelper.setItem("TBARANGMANUAL-BROWSE-SCR", browseScreenData, this.lzStringService);
 
     this.router.navigate(["./input"], { relativeTo: this.route });
   }
@@ -353,7 +350,7 @@ export class BarangManualBrowseComponent implements OnInit, OnDestroy, AfterView
   }
 
   private dataBridging() {
-    const browseScreenData = SessionHelper.getItem("TINVMANUAL-BROWSE-SCR", this.lzStringService);
+    const browseScreenData = SessionHelper.getItem("TBARANGMANUAL-BROWSE-SCR", this.lzStringService);
 
     if (!ObjectHelper.isEmpty(browseScreenData)) {
       if (browseScreenData.fromDetail) {
@@ -372,14 +369,12 @@ export class BarangManualBrowseComponent implements OnInit, OnDestroy, AfterView
         }
 
         this.searchParamsSearch = {
-          nomor: this.userForm.controls.nomor.value,
-          nama: this.userForm.controls.nama.value,
-          status: this.userForm.controls.status.value,
-          fltodep: this.userForm.controls.fltodep.value,
+          nomorBon: this.userForm.controls.nomorBon.value,
+          tanggalBon: this.userForm.controls.tanggalBon.value,
         };
       }
 
-      SessionHelper.destroy("TINVMANUAL-BROWSE-SCR");
+      SessionHelper.destroy("TBARANGMANUAL-BROWSE-SCR");
     }
   }
 

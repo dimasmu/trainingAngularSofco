@@ -9,6 +9,7 @@ export class BarangDetail {
     { model: "tglupd", dataType: "date" },
   ];
 
+  public nourut: number = 0;
   public jumlahDiminta: number = 0;
   public jumlahDalamUnitStok: number = 0;
   public unit: string = null;

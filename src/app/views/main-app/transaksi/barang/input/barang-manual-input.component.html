@@ -1,1 +1,152 @@
-<div>tes</div>
+<div class="ui-g">
+  <div class="ui-g-12">
+    <div class="card no-margin">
+      <div class="p-formgrid p-grid">
+        <div class="p-field p-grid p-col-6 p-justify-start p-align-center" style="margin-bottom: 1px; margin-left: 1px">
+          <h2 style="margin-top: 10px; margin-bottom: 10px">{{ title | translate }}</h2>
+        </div>
+      </div>
+
+      <hr style="margin-bottom: 30px" />
+
+      <form [formGroup]="inputForm">
+        <div class="ui-g p-formgrid p-grid">
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-fluid ui-g-12 ui-md-2">
+              <label for="nomor" class="ui-fluid p-sm-3" style="padding: 2px !important">{{
+                "NomorBon" | translate
+              }}</label>
+            </div>
+            <div class="ui-fluid ui-g-12 ui-md-10" style="padding: 3px">
+              <input
+                pInputText
+                type="text"
+                id="nomorBon"
+                [ngStyle]="
+                  inputForm.controls.nomorBon.valid || inputForm.controls.nomorBon.disabled
+                    ? {}
+                    : { 'border-style': 'solid', 'border-width': 'thin', 'border-color': 'red', 'border-radius': '1px' }
+                "
+                name="nomor_bon"
+                formControlName="nomorBon"
+                maxlength="20"
+              />
+            </div>
+
+            <div class="ui-fluid ui-g-12 ui-md-2">
+              <label class="ui-fluid p-sm-3" style="padding: 2px !important">{{ "Tanggal" | translate }}</label>
+            </div>
+            <div class="ui-fluid ui-g-12 ui-md-10" style="padding-left: 0px; padding-bottom: 0px; padding-top: 0px">
+              <div class="ui-fluid ui-g-12 ui-md-5" style="padding: 3px">
+                <p-calendar
+                  [showIcon]="true"
+                  [dateFormat]="defaultLanguageState.getDefaultLanguage().inputDateFormat"
+                  [showOnFocus]="false"
+                  name="tanggalBon"
+                  [required]="inputForm.controls.tanggalBon.valid"
+                  [placeholder]="defaultLanguageState.getDefaultLanguage().inputDateFormat"
+                  formControlName="tanggalBon"
+                  [locale]="defaultLanguageState.getDefaultLanguage().datePrimeNg"
+                  [ngClass]="{
+                    'ui-state-error': !inputForm.controls.tanggalBon.valid && !inputForm.controls.tanggalBon.disabled
+                  }"
+                >
+                </p-calendar>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-fluid ui-g-12 ui-md-2">
+              <label for="keterangan" class="ui-fluid p-sm-3" style="padding: 2px !important">{{
+                "Keterangan" | translate
+              }}</label>
+            </div>
+            <div class="ui-fluid ui-g-12 ui-md-10" style="padding: 3px">
+              <input
+                pInputText
+                type="text"
+                id="keterangan"
+                name="keterangan"
+                formControlName="keterangan"
+                maxlength="20"
+              />
+            </div>
+
+            <div class="ui-fluid ui-g-12 ui-md-2">
+              <label class="ui-fluid p-sm-3" style="padding: 2px !important">{{ "Bagian" | translate }}</label>
+            </div>
+            <div class="ui-fluid ui-g-12 ui-md-10" style="padding: 3px">
+              <p-dropdown
+                inputId="bagian"
+                [(ngModel)]="selectedBagian"
+                [options]="comboBagian"
+                formControlName="bagianPeminta"
+                appendTo="body"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <br />
+
+      <p-tabView [activeIndex]="tabIndex">
+        <p-tabPanel header="{{ tab2Title | translate }}">
+          <div class="p-formgrid p-grid" #templateBody>
+            <div
+              class="p-field p-grid p-col-12 p-align-start p-justify-start"
+              style="margin-bottom: 1px; margin-left: 2px"
+            >
+              <app-tabel-detil-lain-lain
+                [(dataTables)]="datatableDetail"
+                [isLoadingResultsDataTables]="isLoadingResultsDataTablesDetail"
+                [totalRecordsDataTables]="totalRecordsDataTablesDetail"
+                [expandedRowsDataTables]="expandedRowsDataTablesDetail"
+                [dataTablesWidth]="dataTablesWidth"
+                (dataTablesChange)="datatableDetailChanged()"
+              >
+              </app-tabel-detil-lain-lain>
+            </div>
+          </div>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+</div>
+
+<div class="ui-g" (resized)="onDivDataTableResized($event)">
+  <div class="p-col-12 p-justify-start" style="margin-left: 0px">
+    <p-button
+      type="submit"
+      label="{{ 'Simpan' | translate }}"
+      styleClass="ui-button-raised float-left"
+      icon="pi pi-save"
+      iconPos="left"
+      (onClick)="Save()"
+      [disabled]="!inputForm.valid || isViewOnly"
+      [style]="{ 'margin-top': '10px' }"
+    ></p-button>
+
+    <!-- <p-button
+      type="button"
+      label="{{ 'Hapus' | translate }}"
+      styleClass="ui-button-raised ui-button-danger"
+      icon="pi pi-trash"
+      iconPos="left"
+      (onClick)="delete()"
+      [style]="{ 'margin-left': '5px', 'margin-top': '10px' }"
+      [disabled]="selectedData.status.trim() !== 'NOSENT' || isViewOnly || mode === 'add'"
+    ></p-button> -->
+
+    <p-button
+      type="button"
+      label="{{ 'Kembali' | translate }}"
+      styleClass="ui-button-raised ui-button-success"
+      icon="pi pi-arrow-circle-left"
+      iconPos="left"
+      (click)="back()"
+      [style]="{ 'margin-left': '5px', 'margin-top': '10px' }"
+    ></p-button>
+  </div>
+</div>

@@ -100,7 +100,7 @@ export class BagianInputComponent implements OnInit, OnDestroy, AfterViewChecked
   private initInputForm() {
     this.inputForm = this.fb.group({
       kodeBagian: [{ value: "", disabled: this.isViewOnly }, Validators.required],
-      namaBagian: [{ value: "", disabled: this.isViewOnly }, Validators.required]
+      namaBagian: [{ value: "", disabled: this.isViewOnly }, Validators.required],
     });
   }
 
@@ -152,7 +152,7 @@ export class BagianInputComponent implements OnInit, OnDestroy, AfterViewChecked
     if (this.selectedData) {
       this.inputForm.patchValue({
         kodeBagian: this.selectedData.kode == null ? "" : this.selectedData.kode,
-        namabagian: this.selectedData.nama == null ? "" : this.selectedData.nama
+        namaBagian: this.selectedData.nama == null ? "" : this.selectedData.nama,
       });
     }
   }

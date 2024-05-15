@@ -82,7 +82,7 @@ export class BarangService extends BaseService {
       })
     );
   }
-
+  
   public edit(model: Barang): Observable<Barang> {
     return this.http.put<StdResponse<Barang>>(this.apiUrl, this.mapperBarang.toJson(model, 0)).pipe(
       map((res: StdResponse<Barang>) => {

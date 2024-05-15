@@ -296,14 +296,6 @@ export class BagianBrowseComponent implements OnInit, OnDestroy, AfterViewChecke
           const browseScreenData = {
             kodeBagian: this.userForm.controls.kodeBagian.value,
             namaBagian: this.userForm.controls.namaBagian.value,
-            unit1: this.userForm.controls.unit1.value,
-            konversiUnit1ToUnit2: this.userForm.controls.konversiUnit1ToUnit2.value,
-            unit2: this.userForm.controls.unit2.value,
-            konversiUnit2ToUnitStok: this.userForm.controls.konversiUnit2ToUnitStok.value,
-            unitStok: this.userForm.controls.unitStok.value,
-            aktif: this.userForm.controls.aktif.value,
-
-            firstSearch: this.firstSearch,
             fromDetail: false,
           };
 

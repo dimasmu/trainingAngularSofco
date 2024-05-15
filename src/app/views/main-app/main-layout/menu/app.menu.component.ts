@@ -60,7 +60,7 @@ export class AppMenuComponent implements OnInit {
           // },
           {
             label: "BarangManual",
-            icon: "fa fa-fw fa-handshake",
+            icon: "fa fa-handshake-o",
             routerLink: ["/transaksi/barang"],
           },
         ],

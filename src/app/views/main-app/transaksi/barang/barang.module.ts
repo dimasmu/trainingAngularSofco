@@ -37,6 +37,8 @@ import { ComboConstantsService } from "src/app/pg-resource/master/common/combo-c
 import { InfoCustomerComponent } from "../../info/customer/info.customer.component";
 import { InfoCustomerModule } from "../../info/customer/info.customer.module";
 import { BarangManualService } from "src/app/pg-resource/transaksi/barang/barang-manual.service";
+import { BagianService } from "src/app/pg-resource/master/bagian/bagian.service";
+import { BarangService } from "src/app/pg-resource/master/barang/barang.service";
 
 @NgModule({
   declarations: [
@@ -82,6 +84,8 @@ import { BarangManualService } from "src/app/pg-resource/transaksi/barang/barang
     ComboConstantsService,
     BarangManualService,
     DialogService,
+    BagianService,
+    BarangService,
   ],
 })
 export class TransaksiBarangManualModule {}

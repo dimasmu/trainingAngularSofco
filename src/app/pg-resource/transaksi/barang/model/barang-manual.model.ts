@@ -11,9 +11,9 @@ export class BarangManual {
     { model: "tglupd", dataType: "date" },
     { model: "tgjtemp", dataType: "date" },
   ];
-  public header: BarangHeader = new BarangHeader();
+  public headerBarang: BarangHeader = new BarangHeader();
 
-  public barangDetail: BarangDetail[] = [];
+  public detailBarang: BarangDetail[] = [];
 
   // untuk expandable rows
   public keyIn: string = null;

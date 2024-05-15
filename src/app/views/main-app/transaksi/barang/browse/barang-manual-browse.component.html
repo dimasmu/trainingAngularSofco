@@ -24,7 +24,12 @@
             <label class="ui-fluid p-sm-3" style="padding: 2px !important">{{ "TanggalBon" | translate }}</label>
           </div>
           <div class="ui-fluid ui-g-12 ui-md-2" style="padding: 3px">
-            <p-calendar class="ui-calendar" formControlName="tanggalBon" showIcon="true" dateFormat="dd/mm/yy"></p-calendar>
+            <p-calendar
+              class="ui-calendar"
+              formControlName="tanggalBon"
+              showIcon="true"
+              dateFormat="dd/mm/yy"
+            ></p-calendar>
           </div>
         </div>
       </div>
@@ -71,24 +76,32 @@
 
           <ng-template pTemplate="header" let-columns>
             <tr>
-              <th [pSortableColumn]="columns[0].field">
-                <div [ngStyle]="columns[0].rtl ? { 'text-align': 'right' } : { 'text-align': 'left' }">
-                  {{ "NomorBon" | translate }}
-                  <p-sortIcon [field]="columns[0].field"></p-sortIcon>
-                </div>
-              </th>
-
+              <th>{{ "Delete" | translate }}</th>
               <th [pSortableColumn]="columns[1].field">
                 <div [ngStyle]="columns[1].rtl ? { 'text-align': 'right' } : { 'text-align': 'left' }">
-                  {{ "TanggalBon" | translate }}
+                  {{ "NomorBon" | translate }}
                   <p-sortIcon [field]="columns[1].field"></p-sortIcon>
                 </div>
               </th>
 
               <th [pSortableColumn]="columns[2].field">
                 <div [ngStyle]="columns[2].rtl ? { 'text-align': 'right' } : { 'text-align': 'left' }">
-                  {{ "Keterangan" | translate }}
+                  {{ "BagianPeminta" | translate }}
                   <p-sortIcon [field]="columns[2].field"></p-sortIcon>
+                </div>
+              </th>
+
+              <th [pSortableColumn]="columns[3].field">
+                <div [ngStyle]="columns[3].rtl ? { 'text-align': 'right' } : { 'text-align': 'left' }">
+                  {{ "TanggalBon" | translate }}
+                  <p-sortIcon [field]="columns[3].field"></p-sortIcon>
+                </div>
+              </th>
+
+              <th [pSortableColumn]="columns[4].field">
+                <div [ngStyle]="columns[4].rtl ? { 'text-align': 'right' } : { 'text-align': 'left' }">
+                  {{ "Keterangan" | translate }}
+                  <p-sortIcon [field]="columns[4].field"></p-sortIcon>
                 </div>
               </th>
             </tr>
@@ -96,6 +109,17 @@
 
           <ng-template pTemplate="body" let-row>
             <tr>
+              <td align="center">
+                <button
+                  pButton
+                  type="button"
+                  class="ui-button-danger"
+                  icon="pi pi-trash"
+                  iconPos="center"
+                  (click)="delete(row)"
+                ></button>
+              </td>
+
               <td>
                 <a href="javascript:void(0);" (click)="editDataTables(row)">
                   {{ row.nomorBon }}
@@ -103,7 +127,11 @@
               </td>
 
               <td>
-                {{ row.tanggalBon | dateFormat : "shortDate" : defaultLanguageState.getDefaultLanguage().locale }}
+                {{ row.bagianPeminta.nama }}
+              </td>
+
+              <td>
+                {{ row.tanggalBon | dateFormat : "mediumDate" : defaultLanguageState.getDefaultLanguage().locale }}
               </td>
 
               <td>

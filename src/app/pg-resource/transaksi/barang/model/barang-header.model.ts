@@ -1,5 +1,4 @@
 import { StdFieldMappingHint } from "src/app/common/common-class/standar-api-mapper";
-import { Customer } from "src/app/pg-resource/master/customer/model/customer.model";
 import { BarangDetail } from "./barang-detail.model";
 import { Bagian } from "../../../master/bagian/model/bagian.model";
 
