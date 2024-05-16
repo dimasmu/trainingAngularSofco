@@ -116,10 +116,14 @@ export class DetilLainLainInputComponent implements OnInit, OnDestroy {
   private patchValue() {
     if (this.selectedData) {
       this.inputForm.patchValue({
-        kodeBarang: this.selectedData.mstBarang.kodeBarang == null ? "" : this.selectedData.mstBarang.kodeBarang,
+        barang: this.selectedData.mstBarang == null ? new Barang() : this.selectedData.mstBarang,
+        namaBarang: this.selectedData.mstBarang.namaBarang == null ? "" : this.selectedData.mstBarang.namaBarang,
         unit: this.selectedData.unit == null ? "" : this.selectedData.unit,
-        jumlahDiminta: this.selectedData.jumlahDiminta == null ? 0 : this.selectedData.jumlahDiminta,
+        jumlahDiminta: this.selectedData.jumlahDiminta == null ? "" : this.selectedData.jumlahDiminta,
+        jumlahDalamUnitStok: this.selectedData.jumlahDalamUnitStok == null ? 0 : this.selectedData.jumlahDalamUnitStok,
+        unitStok: this.selectedData.unitStok == null ? 0 : this.selectedData.unitStok,
       });
+      this.selectedBarang();
     }
   }
 
@@ -128,6 +132,7 @@ export class DetilLainLainInputComponent implements OnInit, OnDestroy {
     this.selectedData.unitStok = this.inputForm.controls.barang.value.unitStok;
     this.selectedData.jumlahDiminta = this.inputForm.controls.jumlahDiminta.value;
     this.selectedData.jumlahDalamUnitStok = this.inputForm.controls.jumlahDalamUnitStok.value;
+    this.selectedData.mstBarang = this.inputForm.controls.barang.value;
   }
 
   public doSave() {
@@ -237,7 +242,7 @@ export class DetilLainLainInputComponent implements OnInit, OnDestroy {
     let jumlahDiminta = this.inputForm.controls.jumlahDiminta.value;
     let namaBarang = this.inputForm.controls.namaBarang.value;
     let unit = this.selectedUnit;
-    if (jumlahDiminta == 0 || namaBarang == "" || unit == "") {
+    if (jumlahDiminta == 0 || namaBarang == "" || unit == "" || namaBarang == null || unit == null) {
       this.inputForm.controls.jumlahDalamUnitStok.patchValue(0);
       return;
     }
@@ -360,6 +365,11 @@ export class DetilLainLainInputComponent implements OnInit, OnDestroy {
       this.comboUnit.push(new Object({ label: barangObject.unit1, value: barangObject.unit1 }));
       this.comboUnit.push(new Object({ label: barangObject.unit2, value: barangObject.unit2 }));
       // this.comboUnit.push(new Object({ label: barangObject.unitStok, value: barangObject.unitStok }));
+
+      if (this.mode == "edit") {
+        this.selectedUnit = this.selectedData.unit;
+        return;
+      }
 
       if (this.comboUnit.length > 0) {
         this.selectedUnit = this.comboUnit[0].value;

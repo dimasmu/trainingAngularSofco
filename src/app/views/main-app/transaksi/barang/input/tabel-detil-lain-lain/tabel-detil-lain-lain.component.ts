@@ -79,8 +79,9 @@ export class TabelDetilLainLainComponent implements OnInit, OnDestroy, AfterView
   public initColsDataTables() {
     this.colsDataTables = [
       { field: "nourut", header: "NoUrut", rtl: true, type: "string", width: "10%" },
+      { field: "namaBarang", header: "namaBarang", rtl: false, type: "string", width: "20%" },
       { field: "jumlahdalamunitstok", header: "jumlahDalamUnitStok", rtl: true, type: "string", width: "20%" },
-      { field: "jumlahdiminta", header: "jumlahDiminta", rtl: true, type: "string", width: "30%" },
+      { field: "jumlahdiminta", header: "jumlahDiminta", rtl: true, type: "string", width: "10%" },
       { field: "unit", header: "unit", rtl: false, type: "string", width: "20%" },
       { field: "unitstok", header: "unitStok", rtl: false, type: "string", width: "20%" },
     ];
@@ -119,18 +120,17 @@ export class TabelDetilLainLainComponent implements OnInit, OnDestroy, AfterView
         const returnedData = data.selectedData;
         const mode = data.mode;
 
-        // if (returnedData) {
-        //   if (mode === 'edit') {
+        if (returnedData) {
+          if (mode === "edit") {
+            const updateItem = this.dataTables.find((item) => item.id === returnedData.nourut);
 
-        //     const updateItem = this.dataTables.find((item) => item.id === returnedData.nourut);
+            const index = this.dataTables.indexOf(updateItem);
 
-        //     const index = this.dataTables.indexOf(updateItem);
+            this.dataTables[index] = returnedData;
 
-        //     this.dataTables[index] = returnedData;
-
-        //     this.dataTablesChange.emit(this.dataTables);
-        //   }
-        // }
+            this.dataTablesChange.emit(this.dataTables);
+          }
+        }
         sub.unsubscribe();
       },
       () => {}

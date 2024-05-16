@@ -143,7 +143,6 @@ export class BarangManualService extends BaseService {
   }
 
   public calculate(model: BarangDetail): Observable<BarangDetail> {
-    console.log("mapping model", this.mapperBarangDetail.toJson(model, 0));
     return this.http
       .post<StdResponse<BarangDetail>>(this.requestUrl("calculate"), this.mapperBarangDetail.toJson(model, 0))
       .pipe(
@@ -162,12 +161,12 @@ export class BarangManualService extends BaseService {
       );
   }
 
-  public add(model: BarangManual): Observable<BarangManual> {
-    return this.http.post<StdResponse<BarangManual>>(this.apiUrl, this.mapperBarangManual.toJson(model, 2)).pipe(
-      map((res: StdResponse<BarangManual>) => {
-        return this.convertResponse(res, this.mapperBarangManual).data;
+  public add(model: BarangManual): Observable<BarangHeader> {
+    return this.http.post<StdResponse<BarangHeader>>(this.apiUrl, this.mapperBarangManual.toJson(model, 2)).pipe(
+      map((res: StdResponse<BarangHeader>) => {
+        return this.convertResponse(res, this.mapperBarangHeader).data;
       }),
-      catchError((res: StdResponse<BarangManual>) => {
+      catchError((res: StdResponse<BarangHeader>) => {
         return this.handleError(
           res,
           this.appAlertService,

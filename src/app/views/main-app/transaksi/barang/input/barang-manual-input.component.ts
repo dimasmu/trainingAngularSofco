@@ -64,7 +64,7 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
 
   public mode: string;
 
-  public selectedData: BarangHeader = null;
+  public selectedData: BarangHeader = new BarangHeader();
 
   public isLoadingDropDown = false;
 
@@ -108,7 +108,7 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
 
   // DATATABLE DETAIL
   // datatables untuk detil lain-lain
-  public datatableDetail: BarangDetail[] = [];
+  // public datatableDetail: BarangDetail[] = [];
   public isLoadingResultsDataTablesDetail = false;
   public totalRecordsDataTablesDetail = 0;
 
@@ -155,7 +155,7 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
     this.initDdlBagian();
     // this.initComboStatus();
     this.dataBridging();
-
+    // console.log("selected", this.selectedData);
     this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
       const tempTgtrn = this.inputForm.controls.tgtrn.value;
       this.inputForm.controls.tgtrn.patchValue(null);
@@ -241,12 +241,6 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
         tanggalBon: this.selectedData.tanggalBon === null ? "" : new Date(this.selectedData.tanggalBon),
         keterangan: this.selectedData.keterangan === null ? "" : this.selectedData.keterangan,
       });
-
-      if (this.inputForm.controls.fltodep.value === "Y") {
-        this.inputForm.controls.depused.disable();
-      } else {
-        this.inputForm.controls.depused.enable();
-      }
     }
   }
 
@@ -283,14 +277,7 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
           });
 
           // ambil untuk tampilan unit pengali deposit beserta satuan siklus nya
-          let nildep = 0;
-          let jumbul = 1;
-          let jumsiklus = 1;
-          let satsiklus = "";
-          this.inputForm.controls.nildep.patchValue(nildep);
-          this.inputForm.controls.jumbul.patchValue(jumbul);
-          this.inputForm.controls.jumsiklus.patchValue(jumsiklus);
-          this.inputForm.controls.satsiklus.patchValue(satsiklus);
+          // this.inputForm.controls.nomorBon.patchValue(this.selectedData.nomorBon);
 
           this.patchValue();
         },
@@ -309,23 +296,20 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
     this.selectedData.tanggalBon = moment(this.inputForm.controls.tanggalBon.value).format("YYYY-MM-DD");
     this.selectedData.keterangan = this.inputForm.controls.keterangan.value;
 
-    if (this.inputForm.controls.bagianPeminta.value != null) {
-      const getCode: string = this.inputForm.controls.bagianPeminta.value;
-      const getDataBagian: Bagian = this.dropDownBagian.find((bagian) => bagian.kode == getCode);
-      this.selectedData.bagianPeminta = getDataBagian;
+    if (this.inputForm.controls.bagianPeminta.value) {
+      this.selectedData.bagianPeminta = this.dropDownBagian.find((item) => item.kode == this.selectedBagian);
     }
   }
 
   private bentukDataUntukDisimpan(): BarangManual {
     this.fillModel();
-    // console.log(this.selectedData);
     // bersihkan data yang baru diinput tapi dihapus oleh user (isDeleted = true dan id nya kosong)
     // detail jurnal
-    // for (let i = this.dataTablesDetail.length - 1; i >= 0; i--) {
-    //   if (this.dataTablesDetail[i].isSelect && this.dataTablesDetail[i].id === null) {
-    //     this.dataTablesDetail.splice(i, 1);
-    //   }
-    // }
+    for (let i = this.dataTablesDetail.length - 1; i >= 0; i--) {
+      if (this.dataTablesDetail[i].isSelect && this.dataTablesDetail[i].id === null) {
+        this.dataTablesDetail.splice(i, 1);
+      }
+    }
 
     const transaksiKomplit = new BarangManual();
     transaksiKomplit.headerBarang = this.selectedData;
@@ -335,7 +319,7 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
   }
 
   public doSaveSave() {
-    this.uiBlockService.showUiBlock();
+    // this.uiBlockService.showUiBlock();
 
     const transaksiKomplit = this.bentukDataUntukDisimpan();
 
@@ -349,7 +333,7 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
             this.appAlertService.instantInfo(translation);
           });
 
-          this.doGet(result.headerBarang);
+          this.doGet(result);
         },
         (error) => {
           this.uiBlockService.hideUiBlock();
@@ -394,7 +378,7 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
     this.uiBlockService.showUiBlock();
 
     const transaksiKomplit = this.bentukDataUntukDisimpan();
-    console.log(transaksiKomplit);
+
     this.barangManualService
       .edit(transaksiKomplit)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -528,6 +512,7 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
   }
 
   public back() {
+    console.log(this.previousUrl);
     if (this.previousUrl === "/transaksi/barang") {
       const sessionData = SessionHelper.getItem("TBARANGMANUAL-BROWSE-SCR", this.lzStringService);
 
@@ -545,19 +530,20 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
 
   private dataBridging() {
     const sessionData = SessionHelper.getItem("TBARANGMANUAL-H", this.lzStringService);
-    this.previousUrl = sessionData.urlAsal;
 
+    this.previousUrl = sessionData.urlAsal;
+    console.log("data bridging", sessionData);
     if (sessionData.mode === "edit") {
-      this.selectedData = sessionData.data.header;
-      this.dataTablesDetail = sessionData.data.detailLainLain;
+      this.selectedData = sessionData.data.headerBarang;
+      this.dataTablesDetail = sessionData.data.detailBarang;
 
       this.isLoadingResultsdataTablesDetail = false;
 
       this.mode = "edit";
-      this.initInputForm();
+      this.patchValue();
     } else {
-      this.selectedData = sessionData.data.header;
-      this.dataTablesDetail = sessionData.data.detailLainLain;
+      this.selectedData = sessionData.data.headerBarang;
+      this.dataTablesDetail = sessionData.data.detailBarang;
 
       this.isLoadingResultsdataTablesDetail = false;
 

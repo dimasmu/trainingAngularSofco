@@ -17,6 +17,7 @@
     <colgroup>
       <col style="width: 0" />
       <col style="width: 5px" />
+      <col style="width: 20px" />
       <col style="width: 15px" />
       <col style="width: 20px" />
       <col style="width: 20px" />
@@ -49,6 +50,12 @@
       <th>
         <div [ngStyle]="{ 'text-align': 'right' }">
           {{ "NoUrut" | translate }}
+        </div>
+      </th>
+
+      <th>
+        <div [ngStyle]="{ 'text-align': 'right' }">
+          {{ "NamaBarang" | translate }}
         </div>
       </th>
 
@@ -116,6 +123,12 @@
           <a href="javascript:void(0);" (click)="editDataTables(row)">
             {{ row.nourut | number : ".0" : defaultLanguageState.getDefaultLanguage().locale }}
           </a>
+        </div>
+      </td>
+
+      <td>
+        <div [ngStyle]="{ width: '100%', direction: 'rtl' }">
+          {{ row.mstBarang.namaBarang }}
         </div>
       </td>
 

@@ -47,7 +47,7 @@ export class BarangManualBrowseComponent implements OnInit, OnDestroy, AfterView
 
   public pagingSearch: StdPagingRequest = null;
   public firstSearch = 0;
-  public searchParamsSearch: any;
+  public searchParams: any;
   public sortSearch: any;
 
   // width dari dataTables (untuk kemudian di set di bawah (di onDivDataTableResized) secara dinamis)
@@ -85,7 +85,7 @@ export class BarangManualBrowseComponent implements OnInit, OnDestroy, AfterView
       // dpp: "asc",
       // ppn: "asc",
     };
-    this.searchParamsSearch = {
+    this.searchParams = {
       nomorBon: null,
       tanggalBon: null,
       // status: null,
@@ -118,7 +118,7 @@ export class BarangManualBrowseComponent implements OnInit, OnDestroy, AfterView
       bagianPeminta: [""],
     });
 
-    this.searchParamsSearch = {
+    this.searchParams = {
       nomorBon: this.userForm.controls.nomorBon.value,
       tanggalBon: this.userForm.controls.tanggalBon.value,
     };
@@ -144,33 +144,6 @@ export class BarangManualBrowseComponent implements OnInit, OnDestroy, AfterView
       );
   }
 
-  private initComboStatus() {
-    this.uiBlockService.showUiBlock();
-
-    const searchParams = {
-      rectyp: "INVSTAT",
-    };
-    const sort: any = {
-      rectxt: "asc",
-    };
-
-    this.comboConstantsService
-      .search(searchParams, sort)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .toPromise()
-      .then(
-        (result: StdResponse<ComboConstants[]>) => {
-          this.uiBlockService.hideUiBlock();
-
-          this.comboStatus = result.data.map((item) => new Object({ label: item.rectxt, value: item.reccode }));
-          this.comboStatus.push(new Object({ label: "", value: "" }));
-        },
-        (error) => {
-          this.uiBlockService.hideUiBlock();
-        }
-      );
-  }
-
   public search() {
     this.isLoadingResultsDataTables = false;
     this.uiBlockService.showUiBlock();
@@ -183,16 +156,16 @@ export class BarangManualBrowseComponent implements OnInit, OnDestroy, AfterView
     }
 
     if (this.userForm.value.tanggalBon) {
-      tanggalBonFilter = this.userForm.value.tanggalBon;
+      tanggalBonFilter = moment(this.userForm.value.tanggalBon).format("YYYY-MM-DD");
     }
 
-    this.searchParamsSearch = {
+    this.searchParams = {
       nomorBon: nomorBonFilter,
-      tanggalBon: moment(tanggalBonFilter).format("YYYY-MM-DD"),
+      tanggalBon: tanggalBonFilter,
     };
 
     this.barangManualService
-      .search(this.searchParamsSearch, this.sortSearch, this.pagingSearch)
+      .search(this.searchParams, this.sortSearch, this.pagingSearch)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (result: StdResponse<BarangHeader[]>) => {
@@ -218,7 +191,7 @@ export class BarangManualBrowseComponent implements OnInit, OnDestroy, AfterView
     if (event) {
       const pagination = PagingHelper.getPaging(event);
 
-      pagination.searchParams = this.searchParamsSearch;
+      pagination.searchParams = this.searchParams;
 
       if (pagination.sorts === null) {
         pagination.sorts = this.sortSearch;
@@ -368,7 +341,7 @@ export class BarangManualBrowseComponent implements OnInit, OnDestroy, AfterView
           this.firstSearch = browseScreenData.firstSearch;
         }
 
-        this.searchParamsSearch = {
+        this.searchParams = {
           nomorBon: this.userForm.controls.nomorBon.value,
           tanggalBon: this.userForm.controls.tanggalBon.value,
         };
@@ -380,6 +353,7 @@ export class BarangManualBrowseComponent implements OnInit, OnDestroy, AfterView
 
   private doDeleteDelete(data: BarangHeader) {
     this.uiBlockService.showUiBlock();
+    console.log(data);
     this.barangManualService
       .delete(data)
       .pipe(takeUntil(this.ngUnsubscribe))

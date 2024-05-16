@@ -1660,6 +1660,8 @@ export class IndonesiaMessageDictionary {
 
     // transaksi
     "transaksipembelian.komplit.no.detail": "Transaksi harus memiliki detail",
+    "transaksipembelian.header.bk": "Nomor bon sudah ada",
+    "masterbagianpeminta.not.found": "Master bagian tidak ditemukan"
   };
 
   public static getValues() {
