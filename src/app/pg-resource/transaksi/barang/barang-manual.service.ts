@@ -178,12 +178,12 @@ export class BarangManualService extends BaseService {
     );
   }
 
-  public edit(model: BarangManual): Observable<BarangManual> {
-    return this.http.put<StdResponse<BarangManual>>(this.apiUrl, this.mapperBarangManual.toJson(model, 2)).pipe(
-      map((res: StdResponse<BarangManual>) => {
-        return this.convertResponse(res, this.mapperBarangManual).data;
+  public edit(model: BarangManual): Observable<BarangHeader> {
+    return this.http.put<StdResponse<BarangHeader>>(this.apiUrl, this.mapperBarangManual.toJson(model, 2)).pipe(
+      map((res: StdResponse<BarangHeader>) => {
+        return this.convertResponse(res, this.mapperBarangHeader).data;
       }),
-      catchError((res: StdResponse<BarangManual>) => {
+      catchError((res: StdResponse<BarangHeader>) => {
         return this.handleError(
           res,
           this.appAlertService,

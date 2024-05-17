@@ -1661,7 +1661,8 @@ export class IndonesiaMessageDictionary {
     // transaksi
     "transaksipembelian.komplit.no.detail": "Transaksi harus memiliki detail",
     "transaksipembelian.header.bk": "Nomor bon sudah ada",
-    "masterbagianpeminta.not.found": "Master bagian tidak ditemukan"
+    "masterbagianpeminta.not.found": "Master bagian tidak ditemukan",
+    "masterbarang.unit.not.found": "Unit tidak ditemukan di master barang",
   };
 
   public static getValues() {

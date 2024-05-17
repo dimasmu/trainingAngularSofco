@@ -122,7 +122,7 @@ export class TabelDetilLainLainComponent implements OnInit, OnDestroy, AfterView
 
         if (returnedData) {
           if (mode === "edit") {
-            const updateItem = this.dataTables.find((item) => item.id === returnedData.nourut);
+            const updateItem = this.dataTables.find((item) => item.nourut === returnedData.nourut);
 
             const index = this.dataTables.indexOf(updateItem);
 

@@ -252,7 +252,7 @@ export class DetilLainLainInputComponent implements OnInit, OnDestroy {
     this.selectedData.unit = unit;
 
     const selectedData = this.selectedData;
-    console.log(selectedData);
+    
     this.barangManualService
       .calculate(selectedData)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -353,9 +353,10 @@ export class DetilLainLainInputComponent implements OnInit, OnDestroy {
 
   public clearDetail() {
     if (!this.inputForm.controls.barang.value) {
-      console.log(this.inputForm.controls.barang.value);
       this.inputForm.controls.jumlahDiminta.patchValue(0);
     }
+
+    this.inputForm.controls.namaBarang.patchValue("");
     this.comboUnit = [];
   }
 
@@ -364,7 +365,7 @@ export class DetilLainLainInputComponent implements OnInit, OnDestroy {
       let barangObject: Barang = barang;
       this.comboUnit.push(new Object({ label: barangObject.unit1, value: barangObject.unit1 }));
       this.comboUnit.push(new Object({ label: barangObject.unit2, value: barangObject.unit2 }));
-      // this.comboUnit.push(new Object({ label: barangObject.unitStok, value: barangObject.unitStok }));
+      this.comboUnit.push(new Object({ label: barangObject.unitStok, value: barangObject.unitStok }));
 
       if (this.mode == "edit") {
         this.selectedUnit = this.selectedData.unit;

@@ -205,7 +205,7 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
   }
 
   public datatableDetailChanged() {
-    console.log("datatable detail berubah");
+    console.log("datatable detail berubah", this.dataTablesDetail);
   }
 
   private initComboStatus() {
@@ -261,6 +261,7 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
             prevTab: 0,
             tableFirst: 0,
             tableNumberOfRows: 0,
+            urlAsal: this.previousUrl
           };
           SessionHelper.setItem("TBARANGMANUAL-H", sessionData, this.lzStringService);
 
@@ -390,7 +391,7 @@ export class BarangManualInputComponent implements OnInit, OnDestroy, AfterViewC
             this.appAlertService.instantInfo(translation);
           });
 
-          this.doGet(result.headerBarang);
+          this.doGet(result);
         },
         (error) => {
           this.uiBlockService.hideUiBlock();

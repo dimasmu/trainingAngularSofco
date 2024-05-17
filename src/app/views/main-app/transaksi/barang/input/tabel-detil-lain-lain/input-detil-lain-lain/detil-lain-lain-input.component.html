@@ -1,39 +1,42 @@
 <p-card>
   <form [formGroup]="inputForm">
     <div class="ui-g p-formgrid p-grid">
-      <div class="ui-g-12 ui-md-6">
+      <div class="ui-g-12 ui-md-12">
         <!-- baris pertama -->
-
-        <div class="ui-fluid ui-g-12 ui-md-3">
-          <label for="barang" class="ui-fluid p-sm-3" style="padding: 2px !important">{{ "Barang" | translate }}</label>
-        </div>
-        <div class="ui-fluid ui-g-12 ui-md-9" style="padding: 3px">
-          <div
-            [ngStyle]="
-              inputForm.controls.barang.value.namaBarang === null
-                ? { 'border-style': 'solid', 'border-width': '1px', 'border-color': 'red' }
-                : {}
-            "
-          >
-            <p-autoComplete
-              inputId="barang"
-              formControlName="barang"
-              [suggestions]="filteredBarang"
-              field="namaBarang"
-              (completeMethod)="filterBarang($event)"
-              [minLength]="3"
-              [dropdown]="true"
-              (onBlur)="verifikasiAutocompleteBarang(inputForm.controls.barang.value)"
-              (onSelect)="selectedBarang()"
+        <div class="ui-g-12 ui-md-12" style="padding: 0px">
+          <div class="ui-fluid ui-g-12 ui-md-3">
+            <label for="barang" class="ui-fluid p-sm-3" style="padding: 2px !important">{{
+              "Barang" | translate
+            }}</label>
+          </div>
+          <div class="ui-fluid ui-g-12 ui-md-4" style="padding: 3px">
+            <div
+              [ngStyle]="
+                inputForm.controls.barang.value.namaBarang === null
+                  ? { 'border-style': 'solid', 'border-width': '1px', 'border-color': 'red' }
+                  : {}
+              "
             >
-              <ng-template let-data pTemplate="item">
-                <div class="ui-helper-clearfix">
-                  <div style="float: left; margin: 10px 10px 0 0">
-                    {{ data.kodeBarang }}&nbsp;&nbsp;({{ data.namaBarang }})
+              <p-autoComplete
+                inputId="barang"
+                formControlName="barang"
+                [suggestions]="filteredBarang"
+                field="namaBarang"
+                (completeMethod)="filterBarang($event)"
+                [minLength]="3"
+                [dropdown]="true"
+                (onBlur)="verifikasiAutocompleteBarang(inputForm.controls.barang.value)"
+                (onSelect)="selectedBarang()"
+              >
+                <ng-template let-data pTemplate="item">
+                  <div class="ui-helper-clearfix">
+                    <div style="float: left; margin: 10px 10px 0 0">
+                      {{ data.kodeBarang }}&nbsp;&nbsp;({{ data.namaBarang }})
+                    </div>
                   </div>
-                </div>
-              </ng-template>
-            </p-autoComplete>
+                </ng-template>
+              </p-autoComplete>
+            </div>
           </div>
         </div>
 
@@ -61,11 +64,30 @@
           </div>
         </div>
 
-        <div class="ui-g-12 ui-md-5" style="padding: 0px">
-          <div class="ui-fluid ui-g-12 ui-md-2" style="text-align: center">
-            <label for="jumlahDalamUnitStok" class="ui-fluid p-sm-3" style="padding: 0px !important">=</label>
+        <!-- baris ketiga -->
+        <div class="ui-fluid ui-g-12 ui-md-5" style="padding: 3px">
+          <div class="ui-fluid ui-g-12 ui-md-10" style="padding: 0">
+            <p-dropdown
+              inputId="unit"
+              [(ngModel)]="selectedUnit"
+              [options]="comboUnit"
+              formControlName="unit"
+              (onChange)="onChangeDdlUnit()"
+              [filter]="true"
+            >
+            </p-dropdown>
           </div>
-          <div class="ui-fluid ui-g-12 ui-md-10" style="padding: 3px">
+        </div>
+      </div>
+
+      <div class="ui-g-12 ui-md-12">
+        <div class="ui-g-12 ui-md-12" style="padding: 0px">
+          <div class="ui-fluid ui-g-12 ui-md-3">
+            <label class="ui-fluid p-sm-3" for="barang" style="padding: 0px !important">{{
+              "JumlahDalamUnitStok" | translate
+            }}</label>
+          </div>
+          <div class="ui-fluid ui-g-12 ui-md-2" style="padding: 3px">
             <p-inputNumber
               mode="decimal"
               locale="{{ defaultLanguageState.getDefaultLanguage().locale }}"
@@ -76,45 +98,6 @@
             >
             </p-inputNumber>
           </div>
-        </div>
-
-        <!-- baris kelima -->
-        <!-- <div class="ui-fluid ui-g-12 ui-md-3">
-          <label for="unitStok" class="ui-fluid p-sm-3" style="padding: 2px !important">{{
-            "UnitStok" | translate
-          }}</label>
-        </div>
-        <div class="ui-g-12 ui-md-9" style="padding: 0px">
-          <div class="ui-fluid ui-g-12 ui-md-1" style="text-align: center">
-            <label for="unitStok" class="ui-fluid p-sm-3" style="padding: 2px !important">=</label>
-          </div>
-          <div class="ui-fluid ui-g-12 ui-md-5" style="padding: 3px">
-            <input
-              pInputText
-              type="text"
-              id="unitStok"
-              formControlName="unitStok"
-              [ngStyle]="
-                inputForm.controls.unitStok.valid || inputForm.controls.unitStok.disabled
-                  ? {}
-                  : { 'border-style': 'solid', 'border-width': 'thin', 'border-color': 'red', 'border-radius': '1px' }
-              "
-            />
-          </div>
-        </div> -->
-      </div>
-
-      <div class="ui-g-12 ui-md-6">
-        <!-- baris pertama -->
-        <div class="ui-fluid ui-g-12 ui-md-12" style="padding: 3px">
-          <p-dropdown
-            inputId="unit"
-            [(ngModel)]="selectedUnit"
-            [options]="comboUnit"
-            formControlName="unit"
-            (onChange)="onChangeDdlUnit()"
-          >
-          </p-dropdown>
         </div>
       </div>
     </div>
